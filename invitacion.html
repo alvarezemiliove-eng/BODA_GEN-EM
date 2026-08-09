@@ -6,13 +6,16 @@
 <title>Invitación de boda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&amp;family=Great+Vibes&amp;family=Playfair+Display+SC:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --blanco: #ffffff;
+    --crema: #f3f2e7;
     --tinta: #1f1f1f;
-    --navy: #323c61;
-    --maroon: #602229;
+    --navy: #323c60;
+    --maroon: #60232b;
+    --salvia: #737b6f;
+    --salvia-tinta: #5f6759;
     --gris: #6b6b6b;
     --linea: #d8d3c8;
   }
@@ -20,7 +23,7 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: "Myriad Pro", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    background: var(--blanco);
+    background: var(--crema);
     color: var(--tinta);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
@@ -40,8 +43,13 @@
   }
   .revelar.visible { opacity: 1; transform: none; }
 
-  .ruleta { height: 1px; width: 100%; max-width: 340px; margin: 2.2rem auto;
-            background: linear-gradient(90deg, transparent, var(--linea), transparent); }
+  .ruleta { display: flex; align-items: center; justify-content: center; gap: .7rem;
+            width: 100%; max-width: 340px; margin: 2.2rem auto; }
+  .ruleta::before, .ruleta::after { content: ""; flex: 1; height: 1px; }
+  .ruleta::before { background: linear-gradient(90deg, transparent, var(--maroon)); opacity: .35; }
+  .ruleta::after { background: linear-gradient(90deg, var(--maroon), transparent); opacity: .35; }
+  .ruleta .diamante { width: 7px; height: 7px; transform: rotate(45deg);
+            border: 1px solid var(--maroon); opacity: .8; flex: none; }
 
   .logo {
     display: block;
@@ -51,23 +59,24 @@
   }
 
   .pareja {
-    font-family: "Playfair Display SC", Georgia, serif;
-    font-variant: small-caps;
-    font-size: clamp(1.5rem, 6vw, 2.4rem);
-    letter-spacing: .06em;
-    line-height: 1.5;
-    color: var(--tinta);
+    font-family: "Pinyon Script", Georgia, serif;
+    font-size: clamp(2rem, 7.5vw, 2.8rem);
+    letter-spacing: .02em;
+    line-height: 1.55;
+    text-wrap: balance;
+    color: var(--navy);
   }
   .pareja em {
     font-style: normal;
+    font-family: "Great Vibes", cursive;
     color: var(--maroon);
     display: block;
-    font-size: .45em;
-    margin: .5rem 0;
-    letter-spacing: .35em;
+    font-size: .5em;
+    margin: .35rem 0;
+    line-height: 1;
   }
 
-  .invitan { margin-top: .4rem; font-size: 1rem; font-style: italic; color: var(--gris); }
+  .invitan { margin-top: .4rem; font-size: 1rem; font-style: italic; color: var(--salvia-tinta); }
 
   .nombre-invitado {
     margin-top: 1.6rem;
@@ -92,6 +101,7 @@
     font-size: 1.45rem;
     color: var(--tinta);
   }
+  .fecha strong { color: var(--navy); font-weight: 700; }
   .cuenta {
     display: flex;
     justify-content: center;
@@ -103,7 +113,7 @@
     font-size: .72rem;
     letter-spacing: .3em;
     text-transform: uppercase;
-    color: var(--gris);
+    color: var(--salvia-tinta);
   }
   .cuenta .cd { display: flex; flex-direction: column; align-items: center; min-width: 50px; }
   .cuenta .cd-num {
@@ -309,7 +319,7 @@
     <p class="pareja">Génesis Fidealic Perdigón Paredes<em>&amp;</em>Emilio José Álvarez Lopéz</p>
   </section>
 
-  <div class="ruleta revelar"></div>
+  <div class="ruleta revelar"><span class="diamante"></span></div>
 
   <section class="revelar">
     <p class="invitan">Se complacen en invitar a su boda a</p>
