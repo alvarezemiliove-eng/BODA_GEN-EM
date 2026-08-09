@@ -382,7 +382,7 @@
 <body>
 <div class="contenido">
 
-  <script src="config.js?v=20260809-4"></script>
+  <script src="config.js?v=20260809-5"></script>
 
   <section class="revelar">
     <p class="pareja">Génesis Fidealic Perdigón Paredes<em>&amp;</em>Emilio José Álvarez Lopéz</p>
@@ -549,42 +549,59 @@
     var modalErr = document.getElementById("modal-err");
     var modalSi = document.getElementById("modal-si");
     var modalNo = document.getElementById("modal-no");
+    var modalInvitado = document.getElementById("modal-invitado");
     var claveLocal = "fc_done_" + (nombre || "invitado");
-    var yaRespondio = localStorage.getItem(claveLocal);
 
-    if (C.formularioURL && nombre && !yaRespondio) {
-      document.getElementById("modal-invitado").textContent =
-        nombre + " (" + personas + (personas === "1" ? " persona" : " personas") + ")";
+    function cerrarModal() { modal.hidden = true; }
+
+    function mostrarModal() {
+      if (!C.formularioURL) return;
+      modalInvitado.textContent = (nombre || "Invitado") +
+        " (" + personas + (personas === "1" ? " persona" : " personas") + ")";
+      modalOk.hidden = true;
+      modalErr.hidden = true;
+      modalSi.disabled = false;
       modal.hidden = false;
+    }
 
-      function cerrar() { modal.hidden = true; }
-
-      modalSi.addEventListener("click", function () {
-        modalSi.disabled = true;
-        fetch(C.formularioURL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            nombre: nombre,
-            personas: personas,
-            telefono: "",
-            fecha: C.fechaTexto
-          })
-        }).then(function () {
-          modalOk.hidden = false;
-          localStorage.setItem(claveLocal, "1");
-          setTimeout(cerrar, 1800);
-        }).catch(function () {
-          modalErr.hidden = false;
-          modalSi.disabled = false;
-        });
+    modalSi.addEventListener("click", function () {
+      modalSi.disabled = true;
+      fetch(C.formularioURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          nombre: nombre,
+          personas: personas,
+          telefono: "",
+          fecha: C.fechaTexto
+        })
+      }).then(function () {
+        modalOk.hidden = false;
+        try { localStorage.setItem(claveLocal, "1"); } catch (e) {}
+        setTimeout(cerrarModal, 1800);
+      }).catch(function () {
+        modalErr.hidden = false;
+        modalSi.disabled = false;
       });
+    });
 
-      modalNo.addEventListener("click", function () {
-        localStorage.setItem(claveLocal, "1");
-        cerrar();
-      });
+    modalNo.addEventListener("click", function () {
+      try { localStorage.setItem(claveLocal, "1"); } catch (e) {}
+      cerrarModal();
+    });
+
+    var rsvpBtn = document.getElementById("rsvp");
+    rsvpBtn.addEventListener("click", function (e) {
+      if (!C.formularioURL) return;
+      e.preventDefault();
+      mostrarModal();
+    });
+
+    var yaRespondio = false;
+    try { yaRespondio = localStorage.getItem(claveLocal); } catch (e) {}
+    if (C.formularioURL && nombre && !yaRespondio) {
+      mostrarModal();
     }
 
     const observer = new IntersectionObserver(function (entries) {
