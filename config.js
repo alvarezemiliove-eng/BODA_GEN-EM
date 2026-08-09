@@ -74,6 +74,14 @@ const CONFIG = {
         titulo: "Efectivo",
         simbolo: "$",
         filas: []
+      },
+      {
+        titulo: "Pago móvil",
+        logo: "assets/logo_bancamiga.png",
+        filas: [
+          { etiqueta: "Cédula", valor: "24.463.004", copiar: true },
+          { etiqueta: "Teléfono", valor: "0412-472-1302", copiar: true }
+        ]
       }
     ]
   },
