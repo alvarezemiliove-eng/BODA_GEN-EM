@@ -6,23 +6,20 @@
 <title>Hospedaje recomendado</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&amp;family=Great+Vibes&amp;family=Playfair+Display+SC:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --blanco: #ffffff;
-    --crema: #f3f2e7;
     --tinta: #1f1f1f;
-    --navy: #323c60;
-    --maroon: #60232b;
-    --salvia: #737b6f;
+    --navy: #323c61;
+    --maroon: #602229;
     --gris: #6b6b6b;
     --linea: #d8d3c8;
-    --papel: #fbfaf4;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: "Myriad Pro", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    background: var(--crema);
+    background: var(--blanco);
     color: var(--tinta);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
@@ -50,10 +47,11 @@
   .pareja {
     margin-top: 2.6rem;
     margin-bottom: 2.4rem;
-    font-family: "Pinyon Script", Georgia, serif;
-    font-size: 1.6rem;
-    letter-spacing: .02em;
-    color: var(--navy);
+    font-family: "Playfair Display SC", Georgia, serif;
+    font-variant: small-caps;
+    font-size: 1.15rem;
+    letter-spacing: .14em;
+    color: var(--tinta);
   }
   .titulo-seccion {
     margin-top: 3rem;
@@ -80,7 +78,6 @@
     border-radius: 12px;
     padding: 1.4rem 1.2rem;
     margin-bottom: 1.2rem;
-    background: var(--papel);
   }
   .hotel .logo {
     display: block;
@@ -159,13 +156,8 @@
   }
   .hotel .distancias a svg { width: 1.1em; height: 1.1em; }
   .hotel .distancias a:hover { border-color: var(--maroon); }
-  .ruleta { display: flex; align-items: center; justify-content: center; gap: .7rem;
-            width: 100%; max-width: 240px; margin: 2.4rem auto 0; }
-  .ruleta::before, .ruleta::after { content: ""; flex: 1; height: 1px; }
-  .ruleta::before { background: linear-gradient(90deg, transparent, var(--maroon)); opacity: .35; }
-  .ruleta::after { background: linear-gradient(90deg, var(--maroon), transparent); opacity: .35; }
-  .ruleta .diamante { width: 7px; height: 7px; transform: rotate(45deg);
-            border: 1px solid var(--maroon); opacity: .8; flex: none; }
+  .ruleta { height: 1px; width: 100%; max-width: 240px; margin: 2.4rem auto 0;
+            background: linear-gradient(90deg, transparent, var(--linea), transparent); }
 </style>
 </head>
 <body>
@@ -177,7 +169,7 @@
   <p class="intro-opciones">Si necesitas hospedarte en la ciudad, hemos armado esta lista con mucho cariño para ayudarte.<span class="intro-segunda">Está categorizada por tarifas y lujo, para que elijas el que más se ajuste a tus preferencias.</span></p>
   <div class="hoteles" id="hoteles"></div>
 
-  <div class="ruleta"><span class="diamante"></span></div>
+  <div class="ruleta"></div>
 
   <a class="volver" id="volver" href="invitacion.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
