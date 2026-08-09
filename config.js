@@ -89,5 +89,6 @@ const CONFIG = {
   vestimentaNivel: "Formal",
   vestimentaNota: "De ser posible, evita usar los siguientes colores:",
   personasDefecto: "2",
-  telefonoConfirmacion: "5210000000000"
+  telefonoConfirmacion: "5210000000000",
+  formularioURL: "https://script.google.com/macros/s/AKfycby5fOg51jeKvv4F6wbaj4RIwrwG-zJafpDPR8OXsWfDau34O6XUmes2Y3IaDlQXxvH9GA/exec"
 };
