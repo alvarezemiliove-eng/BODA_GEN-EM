@@ -325,6 +325,31 @@
   }
   .modal-ok { color: var(--navy); }
   .modal-err { color: var(--maroon); }
+  .modal-lista-titulo {
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: .8rem;
+  }
+  .modal-lista {
+    text-align: left;
+    margin-bottom: 1.2rem;
+    max-height: 230px;
+    overflow-y: auto;
+  }
+  .modal-lista label {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .5rem .2rem;
+    font-size: .9rem;
+    color: var(--tinta);
+    cursor: pointer;
+    border-bottom: 1px dashed var(--linea);
+  }
+  .modal-lista label:last-child { border-bottom: none; }
+  .modal-lista input { width: 16px; height: 16px; accent-color: var(--navy); flex: none; }
 
   .extra-botones {
     display: flex;
@@ -382,7 +407,7 @@
 <body>
 <div class="contenido">
 
-  <script src="config.js?v=20260809-5"></script>
+  <script src="config.js?v=20260809-6"></script>
 
   <section class="revelar">
     <p class="pareja">Génesis Fidealic Perdigón Paredes<em>&amp;</em>Emilio José Álvarez Lopéz</p>
@@ -465,9 +490,19 @@
       <p class="modal-titulo">Confirmar asistencia</p>
       <p class="modal-texto">¿Desea confirmar su asistencia a la boda?</p>
       <p class="modal-invitado" id="modal-invitado"></p>
-      <div class="modal-botones">
-        <button class="modal-no" id="modal-no" type="button">No</button>
-        <button class="modal-si" id="modal-si" type="button">Sí</button>
+      <div id="modal-paso1">
+        <div class="modal-botones">
+          <button class="modal-no" id="modal-no" type="button">No</button>
+          <button class="modal-si" id="modal-si" type="button">Sí</button>
+        </div>
+      </div>
+      <div id="modal-paso2" hidden>
+        <p class="modal-lista-titulo" id="modal-lista-titulo"></p>
+        <div class="modal-lista" id="modal-lista"></div>
+        <div class="modal-botones">
+          <button class="modal-no" id="modal-atras" type="button">Atrás</button>
+          <button class="modal-si" id="modal-confirmar" type="button">Confirmar</button>
+        </div>
       </div>
       <p class="modal-ok" id="modal-ok" hidden>¡Confirmación enviada! Gracias.</p>
       <p class="modal-err" id="modal-err" hidden>No se pudo enviar. Intenta por WhatsApp.</p>
@@ -550,30 +585,30 @@
     var modalSi = document.getElementById("modal-si");
     var modalNo = document.getElementById("modal-no");
     var modalInvitado = document.getElementById("modal-invitado");
+    var modalPaso1 = document.getElementById("modal-paso1");
+    var modalPaso2 = document.getElementById("modal-paso2");
+    var modalAtras = document.getElementById("modal-atras");
+    var modalConfirmar = document.getElementById("modal-confirmar");
+    var modalLista = document.getElementById("modal-lista");
+    var modalListaTitulo = document.getElementById("modal-lista-titulo");
     var claveLocal = "fc_done_" + (nombre || "invitado");
+
+    var familia = (params.get("fam") || "").trim();
+    var miembros = (params.get("m") || "").split("|").map(function (x) { return x.trim(); }).filter(Boolean);
 
     function cerrarModal() { modal.hidden = true; }
 
-    function mostrarModal() {
-      if (!C.formularioURL) return;
-      modalInvitado.textContent = (nombre || "Invitado") +
-        " (" + personas + (personas === "1" ? " persona" : " personas") + ")";
-      modalOk.hidden = true;
-      modalErr.hidden = true;
-      modalSi.disabled = false;
-      modal.hidden = false;
-    }
-
-    modalSi.addEventListener("click", function () {
-      modalSi.disabled = true;
+    function enviarConfirmacion(integrantes) {
+      modalConfirmar.disabled = true;
       fetch(C.formularioURL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
-          nombre: nombre,
-          personas: personas,
-          telefono: "",
+          familia: familia,
+          integrantes: integrantes,
+          remitente: nombre,
+          personas: integrantes.length,
           fecha: C.fechaTexto
         })
       }).then(function () {
@@ -582,8 +617,62 @@
         setTimeout(cerrarModal, 1800);
       }).catch(function () {
         modalErr.hidden = false;
-        modalSi.disabled = false;
+        modalConfirmar.disabled = false;
       });
+    }
+
+    function mostrarLista() {
+      modalPaso1.hidden = true;
+      modalLista.innerHTML = "";
+      for (var i = 0; i < miembros.length; i++) {
+        var lb = document.createElement("label");
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = miembros[i];
+        cb.checked = true;
+        lb.appendChild(cb);
+        lb.appendChild(document.createTextNode(miembros[i]));
+        modalLista.appendChild(lb);
+      }
+      modalListaTitulo.textContent = familia ? (familia + " · ¿quiénes asistirán?") : "¿Quiénes asistirán?";
+      modalPaso2.hidden = false;
+    }
+
+    function mostrarModal() {
+      if (!C.formularioURL) return;
+      modalInvitado.textContent = (nombre || "Invitado") +
+        (miembros.length ? " · " + familia : " (" + personas + (personas === "1" ? " persona" : " personas") + ")");
+      modalOk.hidden = true;
+      modalErr.hidden = true;
+      modalSi.disabled = false;
+      modalConfirmar.disabled = false;
+      modalPaso1.hidden = false;
+      modalPaso2.hidden = true;
+      modal.hidden = false;
+    }
+
+    modalSi.addEventListener("click", function () {
+      if (miembros.length > 1) {
+        mostrarLista();
+      } else {
+        modalSi.disabled = true;
+        enviarConfirmacion(miembros.length ? miembros : [nombre || "Invitado"]);
+      }
+    });
+
+    modalConfirmar.addEventListener("click", function () {
+      var marcados = [];
+      var checks = modalLista.querySelectorAll("input[type=checkbox]");
+      for (var i = 0; i < checks.length; i++) {
+        if (checks[i].checked) marcados.push(checks[i].value);
+      }
+      if (!marcados.length) return;
+      enviarConfirmacion(marcados);
+    });
+
+    modalAtras.addEventListener("click", function () {
+      modalPaso2.hidden = true;
+      modalPaso1.hidden = false;
     });
 
     modalNo.addEventListener("click", function () {
