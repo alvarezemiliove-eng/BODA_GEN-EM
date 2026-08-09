@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitación de boda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blanco: #ffffff;
+    --tinta: #1f1f1f;
+    --navy: #323c61;
+    --maroon: #602229;
+    --gris: #6b6b6b;
+    --linea: #d8d3c8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Myriad Pro", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: var(--blanco);
+    color: var(--tinta);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .contenido {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 4rem;
+    text-align: center;
+  }
+  .serif { font-family: "Playfair Display", Georgia, serif; }
+
+  .revelar {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .revelar.visible { opacity: 1; transform: none; }
+
+  .ruleta { height: 1px; width: 100%; max-width: 340px; margin: 2.2rem auto;
+            background: linear-gradient(90deg, transparent, var(--linea), transparent); }
+
+  .logo {
+    display: block;
+    margin: 0 auto;
+    width: 96px;
+    height: auto;
+  }
+
+  .pareja {
+    font-family: "Playfair Display SC", Georgia, serif;
+    font-variant: small-caps;
+    font-size: clamp(1.5rem, 6vw, 2.4rem);
+    letter-spacing: .06em;
+    line-height: 1.5;
+    color: var(--tinta);
+  }
+  .pareja em {
+    font-style: normal;
+    color: var(--maroon);
+    display: block;
+    font-size: .45em;
+    margin: .5rem 0;
+    letter-spacing: .35em;
+  }
+
+  .invitan { margin-top: .4rem; font-size: 1rem; font-style: italic; color: var(--gris); }
+
+  .nombre-invitado {
+    margin-top: 1.6rem;
+    font-family: "Playfair Display SC", Georgia, serif;
+    font-variant: small-caps;
+    font-size: clamp(2rem, 8vw, 3rem);
+    letter-spacing: .04em;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .nombre-invitado::after {
+    content: "";
+    display: block;
+    width: 74px; height: 2px;
+    margin: 1.3rem auto 0;
+    background: var(--maroon);
+  }
+
+  .fecha {
+    margin-top: 2.8rem;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.45rem;
+    color: var(--tinta);
+  }
+  .cuenta {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: .6rem;
+  }
+  .faltan {
+    margin-top: 4rem;
+    font-size: .72rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+  .cuenta .cd { display: flex; flex-direction: column; align-items: center; min-width: 50px; }
+  .cuenta .cd-num {
+    font-family: "Playfair Display SC", Georgia, serif;
+    font-variant: small-caps;
+    font-size: 2.1rem;
+    color: var(--navy);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .cuenta .cd-lbl {
+    font-size: .6rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--gris);
+    margin-top: .4rem;
+  }
+  .cuenta .cd-sep { font-size: 1.5rem; color: var(--maroon); line-height: 1; }
+
+  .dos-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 3.4rem;
+  }
+  .col h3 {
+    font-family: "Playfair Display SC", Georgia, serif;
+    font-variant: small-caps;
+    font-size: .95rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--maroon);
+    margin-bottom: 1rem;
+  }
+  .col img {
+    height: 92px;
+    width: auto;
+    margin: 0 auto 1.1rem;
+    display: block;
+    opacity: .9;
+  }
+  .col .lugar {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.18rem;
+    line-height: 1.4;
+    margin-bottom: .4rem;
+    min-height: 2.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .col .hora {
+    font-size: .85rem;
+    letter-spacing: .1em;
+    color: var(--gris);
+    min-height: 1.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .col .mapa {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    margin-top: .9rem;
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: .1rem;
+  }
+  .col .mapa:hover { border-bottom-color: var(--navy); }
+  .col .mapa svg { width: 1em; height: 1em; }
+
+  .vestimenta {
+    margin-top: 3.6rem;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: .92rem;
+    color: var(--tinta);
+  }
+  .vestimenta .label {
+    font-family: "Playfair Display SC", Georgia, serif;
+    font-variant: small-caps;
+    font-size: .8rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--navy);
+    display: block;
+    margin-bottom: .5rem;
+  }
+  .vestimenta .nivel {
+    font-family: "Playfair Display SC", Georgia, serif;
+    font-variant: small-caps;
+    font-size: 1.7rem;
+    letter-spacing: .12em;
+    color: var(--tinta);
+    display: block;
+    margin-bottom: .5rem;
+  }
+  .vestimenta .nota {
+    font-size: .92rem;
+    font-style: italic;
+    color: var(--gris);
+    display: block;
+  }
+
+  .cuadros {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 1rem;
+  }
+  .cuadros span {
+    width: 34px; height: 34px;
+    display: block;
+    border-radius: 2px;
+  }
+  .cuadros .n1 { background: #fff; border: 1px solid var(--navy); }
+  .cuadros .n2 { background: var(--maroon); }
+  .cuadros .n3 { background: var(--navy); }
+
+  .valido {
+    margin-top: 3.6rem;
+    font-size: .88rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  .rsvp {
+    display: inline-block;
+    margin-top: 1.2rem;
+    padding: .85rem 2.8rem;
+    border: 1px solid var(--navy);
+    border-radius: 50px;
+    color: var(--navy);
+    text-decoration: none;
+    font-size: .9rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    transition: all .25s ease;
+  }
+  .rsvp:hover { background: var(--navy); color: #fff; }
+
+  .extra-botones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.8rem;
+  }
+  .guia-texto {
+    max-width: 420px;
+    margin: 3.2rem auto 2rem;
+    font-size: .93rem;
+    font-style: italic;
+    color: var(--gris);
+    line-height: 1.7;
+  }
+  .btn-extra {
+    flex: 1;
+    max-width: 230px;
+    padding: .7rem 1rem;
+    border: 1px solid var(--navy);
+    border-radius: 50px;
+    background: #fff;
+    color: var(--navy);
+    font-family: inherit;
+    font-size: .8rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .25s ease;
+  }
+  .btn-extra:hover { background: var(--navy); color: #fff; }
+
+  .pie {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--linea);
+    font-size: .9rem;
+    color: var(--gris);
+  }
+  .pie .firma { font-family: "Playfair Display SC", Georgia, serif; font-variant: small-caps; color: var(--navy); }
+
+  @media (max-width: 420px) {
+    .dos-col { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="contenido">
+
+  <script src="config.js"></script>
+
+  <section class="revelar">
+    <p class="pareja">Génesis Fidealic Perdigón Paredes<em>&amp;</em>Emilio José Álvarez Lopéz</p>
+  </section>
+
+  <div class="ruleta revelar"></div>
+
+  <section class="revelar">
+    <p class="invitan">Se complacen en invitar a su boda a</p>
+    <h1 class="nombre-invitado" id="invitado">Nuestro invitado</h1>
+  </section>
+
+  <section class="revelar">
+    <p class="fecha">que tendrá lugar el día <strong>10 de Octubre del 2026</strong></p>
+  </section>
+
+  <section class="revelar">
+    <div class="dos-col">
+      <div class="col">
+        <img class="logo" src="assets/logo_iglesia.png" alt="Iglesia Espíritu Santo">
+        <h3>Ceremonia</h3>
+        <p class="lugar">Iglesia Espíritu Santo</p>
+        <p class="hora">6:45pm a 8:00pm</p>
+        <a class="mapa" href="https://www.google.com/maps/dir/?api=1&destination=10.070612,-69.302381&travelmode=driving" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Cómo llegar
+        </a>
+      </div>
+      <div class="col">
+        <img src="assets/ornamento_negro.png" alt="">
+        <h3>Brindis</h3>
+        <p class="lugar">Villa Santa Marta</p>
+        <p class="hora">9:00pm a 3:00am</p>
+        <a class="mapa" href="https://www.google.com/maps/dir/?api=1&destination=10.016507,-69.302850&travelmode=driving" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Cómo llegar
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="revelar">
+    <p class="vestimenta">
+      <span class="label">Código de vestimenta:</span>
+      <span class="nivel">Formal</span>
+      <span class="nota">Por favor, abstenerse a usar los siguientes colores:</span>
+    </p>
+    <div class="cuadros"><span class="n1"></span><span class="n2"></span><span class="n3"></span></div>
+    <p class="valido" id="valido">Válido para: 2 personas</p>
+  </section>
+
+  <section class="revelar">
+    <p class="faltan">Faltan:</p>
+    <p class="cuenta" id="cuenta">
+      <span class="cd"><span class="cd-num" id="cd-d">00</span><span class="cd-lbl">Días</span></span>
+      <span class="cd-sep">:</span>
+      <span class="cd"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">Horas</span></span>
+      <span class="cd-sep">:</span>
+      <span class="cd"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">Min</span></span>
+      <span class="cd-sep">:</span>
+      <span class="cd"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">Seg</span></span>
+    </p>
+    <a class="rsvp" id="rsvp" href="#" target="_blank" rel="noopener">Confirmar asistencia</a>
+
+    <p class="guia-texto">¿No sabes qué regalar o necesitas dónde quedarte?<br>Te hacemos las cosas más fácil...</p>
+
+    <div class="extra-botones">
+      <a class="btn-extra" href="hoteles.html">Hospedaje</a>
+      <a class="btn-extra" href="regalos.html">Regalos</a>
+    </div>
+  </section>
+
+  <footer class="pie revelar">
+    <p style="margin-bottom:.5rem">¡Nos encantará celebrar este día con ustedes!</p>
+    <p class="firma">Génesis &amp; Emilio</p>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    const C = CONFIG;
+    const params = new URLSearchParams(location.search);
+    const nombre = (params.get("n") || "").replace(/\+/g, " ").trim();
+    const personas = (params.get("p") || "").replace(/\+/g, " ").trim() || C.personasDefecto;
+
+    if (nombre) {
+      document.getElementById("invitado").textContent = nombre;
+      document.title = "Invitación para " + nombre;
+    }
+
+    document.querySelector(".pareja").innerHTML =
+      "<span>" + C.pareja.split("&")[0].trim() + "</span><em>&amp;</em><span>" + C.pareja.split("&").slice(1).join("&").trim() + "</span>";
+    document.querySelector(".fecha").innerHTML =
+      "que tendrá lugar el día <strong>" + C.fechaTexto + "</strong>";
+    document.querySelectorAll(".col")[0].querySelector(".lugar").textContent = C.ceremoniaLugar;
+    document.querySelectorAll(".col")[0].querySelector(".hora").textContent = C.ceremoniaHora;
+    document.querySelectorAll(".col")[1].querySelector(".lugar").textContent = C.brindisLugar;
+    document.querySelectorAll(".col")[1].querySelector(".hora").textContent = C.brindisHora;
+    document.querySelector(".vestimenta").innerHTML =
+      '<span class="label">' + C.vestimentaCodigo + '</span>' +
+      '<span class="nivel">' + C.vestimentaNivel + '</span>' +
+      '<span class="nota">' + C.vestimentaNota + '</span>';
+    document.getElementById("valido").textContent =
+      "Válido para: " + personas + (personas === "1" ? " persona" : " personas");
+
+    document.querySelectorAll(".col")[0].querySelector(".mapa").href = C.ceremoniaMapa;
+    document.querySelectorAll(".col")[1].querySelector(".mapa").href = C.brindisMapa;
+
+    document.addEventListener("click", function (e) {
+      const btn = e.target.closest(".btn-copiar");
+      if (!btn) return;
+      navigator.clipboard.writeText(btn.dataset.copiar).then(function () {
+        btn.textContent = "Copiado";
+        btn.classList.add("copiado");
+        setTimeout(function () {
+          btn.textContent = "Copiar";
+          btn.classList.remove("copiado");
+        }, 1500);
+      });
+    });
+
+    const fecha = new Date(C.fechaISO);
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function tick() {
+      const diff = fecha - new Date();
+      if (diff <= 0) {
+        document.getElementById("cd-d").textContent = "00";
+        document.getElementById("cd-h").textContent = "00";
+        document.getElementById("cd-m").textContent = "00";
+        document.getElementById("cd-s").textContent = "00";
+        return;
+      }
+      document.getElementById("cd-d").textContent = pad(Math.floor(diff / 86400000));
+      document.getElementById("cd-h").textContent = pad(Math.floor(diff / 3600000) % 24);
+      document.getElementById("cd-m").textContent = pad(Math.floor(diff / 60000) % 60);
+      document.getElementById("cd-s").textContent = pad(Math.floor(diff / 1000) % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    const invitado = nombre || "un invitado";
+    document.getElementById("rsvp").href =
+      "https://wa.me/" + C.telefonoConfirmacion + "?text=" +
+      encodeURIComponent("Hola " + C.noviosCorto + ", soy " + invitado +
+        " y confirmo mi asistencia a su boda el " + C.fechaTexto + ".");
+
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".revelar").forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+</body>
+</html>
