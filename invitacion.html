@@ -407,7 +407,7 @@
 <body>
 <div class="contenido">
 
-  <script src="config.js?v=20260809-6"></script>
+  <script src="config.js?v=20260809-7"></script>
 
   <section class="revelar">
     <p class="pareja">Génesis Fidealic Perdigón Paredes<em>&amp;</em>Emilio José Álvarez Lopéz</p>
@@ -515,8 +515,15 @@
   (function () {
     const C = CONFIG;
     const params = new URLSearchParams(location.search);
-    const nombre = (params.get("n") || "").replace(/\+/g, " ").trim();
-    const personas = (params.get("p") || "").replace(/\+/g, " ").trim() || C.personasDefecto;
+    function decod(s) {
+      s = String(s || "").replace(/\+/g, " ");
+      for (var i = 0; i < 2; i++) {
+        try { var d = decodeURIComponent(s); if (d === s) break; s = d; } catch (e) { break; }
+      }
+      return s;
+    }
+    const nombre = decod(params.get("n") || "").trim();
+    const personas = decod(params.get("p") || "").trim() || C.personasDefecto;
 
     if (nombre) {
       document.getElementById("invitado").textContent = nombre;
@@ -593,8 +600,8 @@
     var modalListaTitulo = document.getElementById("modal-lista-titulo");
     var claveLocal = "fc_done_" + (nombre || "invitado");
 
-    var familia = (params.get("fam") || "").trim();
-    var miembros = (params.get("m") || "").split("|").map(function (x) { return x.trim(); }).filter(Boolean);
+    var familia = decod(params.get("fam") || "").trim();
+    var miembros = decod(params.get("m") || "").replace(/%7C/gi, "|").split("|").map(function (x) { return decod(x).trim(); }).filter(Boolean);
 
     function cerrarModal() { modal.hidden = true; }
 
@@ -607,6 +614,7 @@
         body: JSON.stringify({
           familia: familia,
           integrantes: integrantes,
+          nombre: nombre,
           remitente: nombre,
           personas: integrantes.length,
           fecha: C.fechaTexto
@@ -686,12 +694,6 @@
       e.preventDefault();
       mostrarModal();
     });
-
-    var yaRespondio = false;
-    try { yaRespondio = localStorage.getItem(claveLocal); } catch (e) {}
-    if (C.formularioURL && nombre && !yaRespondio) {
-      mostrarModal();
-    }
 
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
