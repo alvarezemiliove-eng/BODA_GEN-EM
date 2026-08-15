@@ -410,7 +410,7 @@
   <script src="config.js?v=20260809-7"></script>
 
   <section class="revelar">
-    <p class="pareja">Génesis Fidealic Perdigón Paredes<em>&amp;</em>Emilio José Álvarez Lopéz</p>
+    <p class="pareja">Emilio José Álvarez Lopéz<em>&amp;</em>Génesis Fidealic Perdigón Paredes</p>
   </section>
 
   <div class="ruleta revelar"></div>
@@ -471,7 +471,7 @@
   </section>
 
   <p class="despedida revelar">Nos encantaría celebrar con ustedes este día tan especial, y compartir juntos la alegría de comenzar esta nueva etapa de nuestras vidas. Será un honor tenerlos a nuestro lado en un momento tan importante e inolvidable para nosotros.</p>
-  <p class="firma revelar">Génesis &amp; Emilio</p>
+  <p class="firma revelar">Emilio &amp; Génesis</p>
 
   <footer class="pie revelar"></footer>
 
@@ -501,7 +501,7 @@
         <div class="modal-lista" id="modal-lista"></div>
         <div class="modal-botones">
           <button class="modal-no" id="modal-atras" type="button">Atrás</button>
-          <button class="modal-si" id="modal-confirmar" type="button">Confirmar</button>
+          <button class="modal-si" id="modal-confirmar-btn" type="button">Confirmar</button>
         </div>
       </div>
       <p class="modal-ok" id="modal-ok" hidden>¡Confirmación enviada! Gracias.</p>
@@ -524,10 +524,11 @@
     }
     const nombre = decod(params.get("n") || "").trim();
     const personas = decod(params.get("p") || "").trim() || C.personasDefecto;
+    const familia = decod(params.get("fam") || "").trim();
 
-    if (nombre) {
-      document.getElementById("invitado").textContent = nombre;
-      document.title = "Invitación para " + nombre;
+    if (familia || nombre) {
+      document.getElementById("invitado").textContent = familia || nombre;
+      document.title = "Invitación para " + (familia || nombre);
     }
 
     document.querySelector(".pareja").innerHTML =
@@ -595,28 +596,30 @@
     var modalPaso1 = document.getElementById("modal-paso1");
     var modalPaso2 = document.getElementById("modal-paso2");
     var modalAtras = document.getElementById("modal-atras");
-    var modalConfirmar = document.getElementById("modal-confirmar");
+    var modalConfirmar = document.getElementById("modal-confirmar-btn");
     var modalLista = document.getElementById("modal-lista");
     var modalListaTitulo = document.getElementById("modal-lista-titulo");
     var claveLocal = "fc_done_" + (nombre || "invitado");
 
-    var familia = decod(params.get("fam") || "").trim();
     var miembros = decod(params.get("m") || "").replace(/%7C/gi, "|").split("|").map(function (x) { return decod(x).trim(); }).filter(Boolean);
 
     function cerrarModal() { modal.hidden = true; }
 
-    function enviarConfirmacion(integrantes) {
+    function enviarConfirmacion(asistentes) {
       modalConfirmar.disabled = true;
+      var encabezados = { "Content-Type": "application/json" };
+      if (C.confirmToken) encabezados["X-Confirm-Token"] = C.confirmToken;
+      var todos = miembros.length ? miembros : [nombre || "Invitado"];
       fetch(C.formularioURL, {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        headers: encabezados,
         body: JSON.stringify({
           familia: familia,
-          integrantes: integrantes,
+          integrantes: todos,
+          asistentes: asistentes,
           nombre: nombre,
           remitente: nombre,
-          personas: integrantes.length,
+          personas: asistentes.length,
           fecha: C.fechaTexto
         })
       }).then(function () {
