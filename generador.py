@@ -170,7 +170,7 @@ def principal():
             if acortar_links:
                 link = acortar(link)
             texto = mensaje_para(fam, inv["nombre"], link, novios)
-            wa = "https://wa.me/{0}?text={1}".format(inv["telefono"], urllib.parse.quote(texto))
+            wa = "https://api.whatsapp.com/send?phone={0}&text={1}".format(inv["telefono"], urllib.parse.quote(texto))
             envio.append({"nombre": inv["nombre"], "telefono": inv["telefono"], "emisor": emisor, "mensaje": texto})
             enlaces.append("{0}\t{1}\t{2}".format(inv["nombre"], inv["telefono"], wa))
 
@@ -210,7 +210,7 @@ def principal():
     print("  Familias incompletas (sin telefono de algun integrante): {0}".format(len(manuales)))
     print("\nArchivos generados:")
     print("  - {0} : mensajes listos para el enviador".format(envio_file))
-    print("  - {0} : links wa.me por invitado".format(enlaces_file))
+    print("  - {0} : links api.whatsapp.com por invitado".format(enlaces_file))
     print("  - {0} : panel de envio manual".format(panel_file))
     print("  - {0} : mensajes para copiar y pegar (envio manual)".format(mensajes_file))
     print("\nEjemplo de enlace personalizado:")
