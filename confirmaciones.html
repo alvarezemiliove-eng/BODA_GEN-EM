@@ -3,15 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Confirmaciones · Génesis &amp; Emilio</title>
+<title>Confirmaciones · Emilio &amp; Génesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root { --navy:#1f3a5f; --granate:#6d1a36; --crema:#faf6ef; --tinta:#2e2a26; }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: Georgia, "Times New Roman", serif; background:var(--crema); color:var(--tinta); }
+  body { margin:0; font-family: "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background:var(--crema); color:var(--tinta); }
   header { background:var(--navy); color:#fff; padding:1.4rem 1.5rem; }
   header h1 { margin:0; font-weight:normal; letter-spacing:.08em; font-size:1.25rem; }
   header p { margin:.3rem 0 0; opacity:.85; font-size:.85rem; letter-spacing:.05em; }
   main { max-width:1000px; margin:0 auto; padding:1.5rem; }
+  .panel { display:grid; grid-template-columns: 230px 1fr; gap:1.2rem; margin-bottom:1.2rem; align-items:start; }
+  .lateral { display:flex; flex-direction:column; gap:.8rem; }
+  .lateral-kpi { background:var(--navy); color:#fff; border-radius:12px; padding:1rem 1.2rem; }
+  .lateral-kpi .num { font-size:1.9rem; font-weight:700; line-height:1.1; }
+  .lateral-kpi .eti { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; opacity:.85; margin-top:.2rem; }
+  .lateral-kpi.verde { background:#2e7d32; }
   .tarjetas { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.2rem; }
   .tarjeta { flex:1; min-width:150px; background:#fff; border:1px solid rgba(31,58,95,.15); border-radius:12px; padding:1rem 1.2rem; }
   .tarjeta .num { font-size:1.9rem; }
@@ -35,20 +44,31 @@
   .fecha { white-space:nowrap; font-size:.8rem; color:#8a8377; }
   #estado { color:#8a8377; font-size:.8rem; margin-top:.8rem; }
   footer { text-align:center; color:#b0a892; font-size:.75rem; padding:1.5rem; letter-spacing:.05em; }
+  @media (max-width: 720px) { .panel { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <header>
-  <h1>CONFIRMACIONES · GÉNESIS &amp; EMILIO</h1>
-  <p id="fuente">Cargando datos de la hoja…</p>
+  <h1>CONFIRMACIONES · EMILIO &amp; GÉNESIS</h1>
+  <p id="fuente">Cargando confirmaciones…</p>
 </header>
 <main>
-  <div class="tarjetas">
-    <div class="tarjeta"><div class="num tot" id="t-total">–</div><div class="eti">Invitados</div></div>
-    <div class="tarjeta"><div class="num ok" id="t-conf">–</div><div class="eti">Confirmados</div></div>
-    <div class="tarjeta"><div class="num pen" id="t-pend">–</div><div class="eti">Pendientes</div></div>
+  <div class="panel">
+    <aside class="lateral">
+      <div class="lateral-kpi verde"><div class="num" id="t-mesas">–</div><div class="eti">Mesas necesarias</div></div>
+      <div class="lateral-kpi verde"><div class="num" id="t-pasapalos">–</div><div class="eti">Pasapalos</div></div>
+      <div class="lateral-kpi"><div class="num" id="t-pct-conf">–</div><div class="eti">% invitados confirmados</div></div>
+      <div class="lateral-kpi"><div class="num" id="t-pct-asis">–</div><div class="eti">% asistentes</div></div>
+    </aside>
+    <div class="principal">
+      <div class="tarjetas">
+        <div class="tarjeta"><div class="num tot" id="t-total">–</div><div class="eti">Invitados</div></div>
+        <div class="tarjeta"><div class="num ok" id="t-conf">–</div><div class="eti">Confirmados</div></div>
+        <div class="tarjeta"><div class="num pen" id="t-pend">–</div><div class="eti">Pendientes</div></div>
+      </div>
+      <div class="barra"><div id="barra-prog"></div></div>
+    </div>
   </div>
-  <div class="barra"><div id="barra-prog"></div></div>
   <div class="fila">
     <input type="text" id="buscar" placeholder="Buscar por nombre o familia…">
     <button id="btn-refrescar">Actualizar</button>
@@ -58,128 +78,116 @@
   <div class="tabla">
     <table id="tabla">
       <thead>
-        <tr><th>Nombre</th><th>Familia</th><th>Teléfono</th><th>Válido</th><th>Confirmación</th><th>Fecha y Hora</th></tr>
+        <tr><th>N° Inv</th><th>Nombre</th><th>Familia</th><th>Teléfono</th><th>Válido</th><th>Confirmación</th><th>Asistirá</th><th>Fecha y Hora</th></tr>
       </thead>
       <tbody id="cuerpo"></tbody>
     </table>
   </div>
   <p id="estado"></p>
 </main>
-<footer>Hoja de cálculo conectada en vivo</footer>
+<footer>Confirmaciones guardadas en GitHub</footer>
 
 <script>
-var SPREADSHEET_ID = "11TCw0VKhvpCVtjGpf-sBAxGF2kFZrtyOGrfxMayrIso";
-var GID = 487999364; // 487999364 = Base de pruebas · 341216255 = Base de datos (produccion)
-
 (function () {
-  var params = new URLSearchParams(location.search);
-  var gid = params.get("gid");
-  if (gid) GID = gid;
-
-  var filas = [];          // todas las filas de la hoja
+  var filas = [];          // todas las filas de confirmaciones
   var visibles = [];       // filas filtradas por el buscador
-  var cabecera = ["Nombre", "Familia", "Teléfono", "Válido", "Confirmación", "Fecha y Hora"];
+  var cabecera = ["N° Inv", "Nombre", "Familia", "Teléfono", "Válido", "Confirmación", "Asistirá", "Fecha y Hora"];
   var fuente = document.getElementById("fuente");
   var cuerpo = document.getElementById("cuerpo");
   var buscar = document.getElementById("buscar");
   var estado = document.getElementById("estado");
 
-  var url = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID +
-            "/gviz/tq?gid=" + GID + "&tqx=out:csv";
-
-  function parsearCSV(texto) {
-    var resultado = [];
-    var fila = [], actual = "", dentro = false;
-    for (var i = 0; i < texto.length; i++) {
-      var c = texto[i];
-      if (c === '"') {
-        if (dentro && texto[i + 1] === '"') { actual += '"'; i++; }
-        else dentro = !dentro;
-      } else if (c === "," && !dentro) {
-        fila.push(actual); actual = "";
-      } else if ((c === "\n" || c === "\r") && !dentro) {
-        if (c === "\r" && texto[i + 1] === "\n") i++;
-        if (fila.length || actual) { fila.push(actual); resultado.push(fila); }
-        fila = []; actual = "";
-      } else {
-        actual += c;
-      }
-    }
-    if (fila.length || actual) { fila.push(actual); resultado.push(fila); }
-    return resultado;
-  }
+  var url = "/api/confirmaciones";
 
   function cargar() {
     estado.textContent = "Cargando…";
-    cuerpo.innerHTML = '<tr><td colspan="6" style="color:#8a8377">Cargando datos…</td></tr>';
+    cuerpo.innerHTML = '<tr><td colspan="8" style="color:#8a8377">Cargando datos…</td></tr>';
     fetch(url).then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.text();
-    }).then(function (texto) {
-      var datos = parsearCSV(texto);
+      return r.json();
+    }).then(function (datos) {
       filas = [];
-      for (var i = 1; i < datos.length; i++) {
-        var f = datos[i];
-        var nombre = (f[1] || "").trim();
-        if (!nombre) continue;
+      for (var i = 0; i < datos.length; i++) {
+        var f = datos[i] || {};
+        if (!(f.nombre || "").trim()) continue;
         filas.push({
-          nombre: nombre,
-          familia: (f[2] || "").trim() || "-",
-          telefono: (f[4] || "").trim(),
-          valido: (f[3] || "").trim(),
-          confirmacion: (f[7] || "").trim(),
-          fecha: (f[8] || "").trim()
+          n_inv: (f.n_inv || "").trim(),
+          nombre: (f.nombre || "").trim(),
+          familia: (f.familia || "").trim() || "-",
+          telefono: (f.telefono || "").trim(),
+          valido: (f.valido || "").trim(),
+          confirmacion: (f.confirmacion || "").trim(),
+          asistira: (f.asistira || "No").trim(),
+          fecha: (f.fecha || "").trim()
         });
       }
-      fuente.textContent = "Hoja actualizada: " + (new Date()).toLocaleString();
-      pintar();
+      fuente.textContent = "Datos actualizados: " + (new Date()).toLocaleString();
+      aplicarFiltro();
       estado.textContent = filas.length + " invitados cargados.";
     }).catch(function (e) {
-      fuente.textContent = "Error al cargar la hoja";
-      cuerpo.innerHTML = '<tr><td colspan="6" style="color:#c62828">No se pudo leer la hoja: ' +
+      fuente.textContent = "Error al cargar los datos";
+      cuerpo.innerHTML = '<tr><td colspan="8" style="color:#c62828">No se pudieron leer las confirmaciones: ' +
         (e && e.message ? e.message : e) + "</td></tr>";
-      estado.textContent = "Revisa que la hoja sea de acceso público.";
+      estado.textContent = "Verifica que la app esté corriendo.";
     });
   }
 
   function esConfirmado(f) { return f.confirmacion === "Confirmado"; }
+  function esAsistente(f) { return f.asistira === "Sí"; }
 
   function aplicarFiltro() {
     var q = buscar.value.trim().toLowerCase();
     visibles = filas.filter(function (f) {
       if (!q) return true;
       return f.nombre.toLowerCase().indexOf(q) !== -1 ||
-             f.familia.toLowerCase().indexOf(q) !== -1;
+             f.familia.toLowerCase().indexOf(q) !== -1 ||
+             (f.n_inv || "").indexOf(q) !== -1;
     });
     pintar();
   }
 
   function pintar() {
-    var conf = 0;
-    filas.forEach(function (f) { if (esConfirmado(f)) conf++; });
-    document.getElementById("t-total").textContent = filas.length;
+    var conf = 0, asis = 0;
+    filas.forEach(function (f) {
+      if (esConfirmado(f)) conf++;
+      if (esAsistente(f)) asis++;
+    });
+    var total = filas.length;
+    document.getElementById("t-total").textContent = total;
     document.getElementById("t-conf").textContent = conf;
-    document.getElementById("t-pend").textContent = filas.length - conf;
+    document.getElementById("t-pend").textContent = total - conf;
+    document.getElementById("t-mesas").textContent = Math.ceil(asis / 8) || 0;
+    document.getElementById("t-pasapalos").textContent = (asis * 25).toLocaleString("es-VE");
+    document.getElementById("t-pct-conf").textContent =
+      (total ? Math.round((conf / total) * 100) : 0) + "%";
+    document.getElementById("t-pct-asis").textContent =
+      (total ? Math.round((asis / total) * 100) : 0) + "%";
     document.getElementById("barra-prog").style.width =
-      (filas.length ? Math.round((conf / filas.length) * 100) : 0) + "%";
+      (total ? Math.round((asis / total) * 100) : 0) + "%";
 
     cuerpo.innerHTML = "";
     if (!visibles.length) {
-      cuerpo.innerHTML = '<tr><td colspan="6" style="color:#8a8377">Sin resultados.</td></tr>';
+      cuerpo.innerHTML = '<tr><td colspan="8" style="color:#8a8377">Sin resultados.</td></tr>';
       return;
     }
     visibles.forEach(function (f) {
       var tr = document.createElement("tr");
       var ok = esConfirmado(f);
+      var va = esAsistente(f);
       var chip = ok
         ? '<span class="chip chip-conf">Confirmado</span>'
         : '<span class="chip chip-pend">No confirmado</span>';
+      var chipAsis = va
+        ? '<span class="chip chip-conf">Sí</span>'
+        : '<span class="chip chip-pend">No</span>';
       tr.innerHTML =
+        "<td>" + esc(f.n_inv) + "</td>" +
         "<td>" + esc(f.nombre) + "</td>" +
         "<td>" + esc(f.familia) + "</td>" +
         "<td>" + esc(f.telefono) + "</td>" +
         "<td>" + esc(f.valido) + "</td>" +
         "<td>" + chip + "</td>" +
+        "<td>" + chipAsis + "</td>" +
         '<td class="fecha">' + esc(f.fecha) + "</td>";
       cuerpo.appendChild(tr);
     });
@@ -193,8 +201,9 @@ var GID = 487999364; // 487999364 = Base de pruebas · 341216255 = Base de datos
   function aoaActual() {
     var aoa = [cabecera];
     filas.forEach(function (f) {
-      aoa.push([f.nombre, f.familia, f.telefono, f.valido,
-        esConfirmado(f) ? "Confirmado" : "No confirmado", f.fecha]);
+      aoa.push([f.n_inv, f.nombre, f.familia, f.telefono, f.valido,
+        esConfirmado(f) ? "Confirmado" : "No confirmado",
+        esAsistente(f) ? "Sí" : "No", f.fecha]);
     });
     return aoa;
   }
@@ -215,7 +224,7 @@ var GID = 487999364; // 487999364 = Base de pruebas · 341216255 = Base de datos
   function descargarExcel() {
     var aoa = aoaActual();
     var hoja = XLSX.utils.aoa_to_sheet(aoa);
-    hoja["!cols"] = [{ wch: 24 }, { wch: 30 }, { wch: 16 }, { wch: 8 }, { wch: 14 }, { wch: 22 }];
+    hoja["!cols"] = [{ wch: 8 }, { wch: 24 }, { wch: 30 }, { wch: 16 }, { wch: 8 }, { wch: 14 }, { wch: 10 }, { wch: 22 }];
     var libro = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(libro, hoja, "Confirmaciones");
     XLSX.writeFile(libro, "confirmaciones.xlsx");
@@ -225,8 +234,9 @@ var GID = 487999364; // 487999364 = Base de pruebas · 341216255 = Base de datos
   document.getElementById("btn-csv").addEventListener("click", function () {
     var lineas = [cabecera.join(",")];
     filas.forEach(function (f) {
-      var v = [f.nombre, f.familia, f.telefono, f.valido,
-        esConfirmado(f) ? "Confirmado" : "No confirmado", f.fecha];
+      var v = [f.n_inv, f.nombre, f.familia, f.telefono, f.valido,
+        esConfirmado(f) ? "Confirmado" : "No confirmado",
+        esAsistente(f) ? "Sí" : "No", f.fecha];
       lineas.push(v.map(function (x) { return '"' + String(x || "").replace(/"/g, '""') + '"'; }).join(","));
     });
     var blob = new Blob(["\uFEFF" + lineas.join("\n")], { type: "text/csv;charset=utf-8" });
