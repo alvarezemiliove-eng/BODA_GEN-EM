@@ -161,6 +161,44 @@ app.post("/api/confirmar", async (req, res) => {
   }
 });
 
+app.post("/api/estado", async (req, res) => {
+  try {
+    if (AUTH_TOKEN && req.headers["x-confirm-token"] !== AUTH_TOKEN) {
+      return res.status(401).json({ error: "Token no válido" });
+    }
+    const { nombre = "", familia = "", confirmacion = "", asistira = "" } = req.body || {};
+    if (!nombre.trim()) {
+      return res.status(400).json({ error: "Falta el nombre" });
+    }
+    const { data, sha } = await cargarDatos();
+    const filas = Array.isArray(data) ? data : [];
+    const nomB = norm(nombre);
+    const famB = norm(familia);
+    let encontrados = 0;
+    for (const fila of filas) {
+      if (norm(fila.nombre) !== nomB) continue;
+      if (famB && norm(fila.familia) !== famB) continue;
+      encontrados++;
+      if (confirmacion === "Confirmado" || confirmacion === "No confirmado") {
+        fila.confirmacion = confirmacion;
+        fila.fecha = confirmacion === "Confirmado" ? (fila.fecha || new Date().toISOString()) : "";
+      }
+      if (asistira === "Sí" || asistira === "No") fila.asistira = asistira;
+    }
+    await writeFile(path.join(__dirname, DATA_FILE), JSON.stringify(filas, null, 2), "utf8");
+    if (GITHUB_TOKEN) {
+      try {
+        await escribirRepo(filas, sha);
+      } catch (e) {
+        return res.status(502).json({ error: "No se pudo guardar en GitHub: " + e.message });
+      }
+    }
+    res.json({ ok: true, encontrados, total: filas.length });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log("Boda app escuchando en http://localhost:" + PORT);
 });

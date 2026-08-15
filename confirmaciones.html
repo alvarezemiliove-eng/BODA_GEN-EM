@@ -42,6 +42,8 @@
   .chip-conf { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
   .chip-pend { background:#fdecea; color:#c62828; border:1px solid #ef9a9a; }
   .fecha { white-space:nowrap; font-size:.8rem; color:#8a8377; }
+  .sel-estado { font-family:inherit; font-size:.82rem; padding:.28rem .45rem; border:1px solid #d8d0bf; border-radius:8px; background:#fff; color:var(--tinta); cursor:pointer; white-space:nowrap; }
+  .sel-estado:focus { outline:2px solid var(--granate); }
   #estado { color:#8a8377; font-size:.8rem; margin-top:.8rem; }
   footer { text-align:center; color:#b0a892; font-size:.75rem; padding:1.5rem; letter-spacing:.05em; }
   @media (max-width: 720px) { .panel { grid-template-columns: 1fr; } }
@@ -98,6 +100,7 @@
   var estado = document.getElementById("estado");
 
   var url = "https://boda-invitaciones.onrender.com/api/confirmaciones";
+  var urlEstado = "https://boda-invitaciones.onrender.com/api/estado";
 
   function cargar() {
     estado.textContent = "Cargando…";
@@ -174,24 +177,55 @@
       var tr = document.createElement("tr");
       var ok = esConfirmado(f);
       var va = esAsistente(f);
-      var chip = ok
-        ? '<span class="chip chip-conf">Confirmado</span>'
-        : '<span class="chip chip-pend">No confirmado</span>';
-      var chipAsis = va
-        ? '<span class="chip chip-conf">Sí</span>'
-        : '<span class="chip chip-pend">No</span>';
+      var i = filas.indexOf(f);
+      var selConf =
+        '<select class="sel-estado" data-idx="' + i + '" data-campo="confirmacion">' +
+        '<option value="No confirmado"' + (ok ? "" : " selected") + ">No confirmado</option>" +
+        '<option value="Confirmado"' + (ok ? " selected" : "") + ">Confirmado</option>" +
+        "</select>";
+      var selAsis =
+        '<select class="sel-estado" data-idx="' + i + '" data-campo="asistira">' +
+        '<option value="No"' + (va ? "" : " selected") + ">No</option>" +
+        '<option value="Sí"' + (va ? " selected" : "") + ">Sí</option>" +
+        "</select>";
       tr.innerHTML =
         "<td>" + esc(f.n_inv) + "</td>" +
         "<td>" + esc(f.nombre) + "</td>" +
         "<td>" + esc(f.familia) + "</td>" +
         "<td>" + esc(f.telefono) + "</td>" +
         "<td>" + esc(f.valido) + "</td>" +
-        "<td>" + chip + "</td>" +
-        "<td>" + chipAsis + "</td>" +
+        "<td>" + selConf + "</td>" +
+        "<td>" + selAsis + "</td>" +
         '<td class="fecha">' + esc(f.fecha) + "</td>";
       cuerpo.appendChild(tr);
     });
   }
+
+  cuerpo.addEventListener("change", function (e) {
+    var sel = e.target;
+    if (!sel.classList || !sel.classList.contains("sel-estado")) return;
+    var f = filas[parseInt(sel.getAttribute("data-idx"), 10)];
+    if (!f) return;
+    f[sel.getAttribute("data-campo")] = sel.value;
+    pintar();
+    estado.textContent = "Guardando: " + f.nombre + " …";
+    fetch(urlEstado, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombre: f.nombre,
+        familia: f.familia,
+        confirmacion: f.confirmacion,
+        asistira: f.asistira
+      })
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      estado.textContent = (j && j.ok && j.encontrados)
+        ? "Guardado: " + f.nombre + " → " + f.confirmacion
+        : "No se encontró el invitado: " + f.nombre;
+    }).catch(function () {
+      estado.textContent = "Error al guardar en el servidor.";
+    });
+  });
 
   function esc(s) {
     return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;")
