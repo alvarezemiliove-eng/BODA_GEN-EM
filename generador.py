@@ -16,6 +16,7 @@ Uso:
     python generador.py --short               # acorta los links con tinyurl
 """
 import csv
+import html
 import sys
 import urllib.parse
 import urllib.request
@@ -230,14 +231,16 @@ def generar_panel(enlaces):
     for linea in enlaces:
         partes = linea.split("\t")
         nombre = partes[0]
-        enlace = partes[2]
+        wa = partes[2]
+        q = urllib.parse.urlparse(wa).query
+        texto = urllib.parse.parse_qs(q).get("text", [""])[0]
         tarjetas += (
             '<div class="c">'
             "<strong>{0}</strong>"
             '<a href="{1}" target="_blank" rel="noopener">Abrir WhatsApp</a>'
-            "<code>{1}</code>"
+            '<p class="msg">{2}</p>'
             "</div>"
-        ).format(nombre, enlace)
+        ).format(nombre, html.escape(wa, quote=True), html.escape(texto))
     return (
         "<!DOCTYPE html>\n"
         "<html lang=\"es\">\n"
@@ -249,12 +252,13 @@ def generar_panel(enlaces):
         "  h1 { font-size: 1.3rem; font-weight: normal; letter-spacing: .1em; }\n"
         "  p { color: #8a8377; font-size: .9rem; }\n"
         "  .c { background: #fff; border: 1px solid rgba(176,141,87,.3); border-radius: 10px;\n"
-        "       padding: 1rem 1.2rem; margin-bottom: .8rem; display: flex; align-items: center; gap: 1rem; }\n"
+        "       padding: 1rem 1.2rem; margin-bottom: .8rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }\n"
         "  .c strong { min-width: 160px; }\n"
         "  .c a { background: #2e2a26; color: #faf6ef; text-decoration: none; padding: .5rem 1rem;\n"
         "         border-radius: 50px; font-size: .85rem; white-space: nowrap; }\n"
         "  .c a:hover { background: #b08d57; }\n"
-        "  .c code { color: #b08d57; font-size: .72rem; word-break: break-all; flex: 1; }\n"
+        "  .c .msg { flex-basis: 100%; font-size: .82rem; line-height: 1.55; color: #4a443b; white-space: pre-line;\n"
+        "            background: #fbf8f2; border: 1px solid rgba(176,141,87,.2); border-radius: 8px; padding: .7rem .9rem; margin: .4rem 0 0; }\n"
         "  @media (max-width: 640px) { .c { flex-direction: column; align-items: flex-start; } }\n"
         "</style>\n"
         "</head>\n"
