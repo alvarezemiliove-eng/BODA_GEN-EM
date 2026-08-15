@@ -14,6 +14,13 @@ const AUTH_TOKEN = process.env.AUTH_TOKEN || "";
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Confirm-Token");
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
+});
 
 function servir(archivo) {
   return (req, res) => res.sendFile(path.join(__dirname, archivo));
