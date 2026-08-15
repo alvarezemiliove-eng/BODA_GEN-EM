@@ -13,10 +13,12 @@ Uso:
     python generador.py <csv>                 # usa otro CSV (salida con prefijo pruebas_)
     python generador.py https://mi-sitio.netlify.app/invitacion.html
     python generador.py <csv> <url>           # ambos en cualquier orden
+    python generador.py --short               # acorta los links con tinyurl
 """
 import csv
 import sys
 import urllib.parse
+import urllib.request
 import os
 
 CSV_FILE = "base_datos_exportada.csv"
@@ -86,6 +88,17 @@ def enlace_invitacion(base, familia, integrantes, valido, remitente):
     return url
 
 
+def acortar(enlace):
+    """Acorta la URL con tinyurl (sin necesidad de cuenta)."""
+    api = "https://tinyurl.com/api-create.php?url=" + urllib.parse.quote(enlace, safe="")
+    try:
+        with urllib.request.urlopen(api, timeout=30) as r:
+            corto = r.read().decode("utf-8").strip()
+        return corto if corto.startswith("http") else enlace
+    except Exception:
+        return enlace
+
+
 def mensaje_para(familia, remitente, enlace, novios):
     personalizado = (familia.get("mensaje_personalizado") or "").strip()
     if personalizado:
@@ -99,6 +112,7 @@ def principal():
     args = sys.argv[1:]
     base_url = BASE_URL_DEFECTO
     csv_file = CSV_FILE
+    acortar_links = "--short" in args
     for a in args:
         if a.startswith("http"):
             base_url = a
@@ -145,6 +159,8 @@ def principal():
 
         for inv in con_telefono:
             link = enlace_invitacion(base_url, familia_nombre, fam["integrantes"], valido, inv["nombre"])
+            if acortar_links:
+                link = acortar(link)
             texto = mensaje_para(fam, inv["nombre"], link, novios)
             wa = "https://wa.me/+{0}?text={1}".format(inv["telefono"], urllib.parse.quote(texto))
             envio.append({"nombre": inv["nombre"], "telefono": inv["telefono"], "emisor": emisor, "mensaje": texto})
