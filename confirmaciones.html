@@ -44,6 +44,9 @@
   .fecha { white-space:nowrap; font-size:.8rem; color:#8a8377; }
   .sel-estado { font-family:inherit; font-size:.82rem; padding:.28rem .45rem; border:1px solid #d8d0bf; border-radius:8px; background:#fff; color:var(--tinta); cursor:pointer; white-space:nowrap; }
   .sel-estado:focus { outline:2px solid var(--granate); }
+  .sel-azul { background:#e8edf7; border-color:#1f3a5f; color:#1f3a5f; font-weight:600; }
+  .sel-verde { background:#e8f5e9; border-color:#2e7d32; color:#2e7d32; font-weight:600; }
+  .sel-rojo { background:#fdecea; border-color:#c62828; color:#c62828; font-weight:600; }
   #estado { color:#8a8377; font-size:.8rem; margin-top:.8rem; }
   footer { text-align:center; color:#b0a892; font-size:.75rem; padding:1.5rem; letter-spacing:.05em; }
   @media (max-width: 720px) { .panel { grid-template-columns: 1fr; } }
@@ -179,12 +182,12 @@
       var va = esAsistente(f);
       var i = filas.indexOf(f);
       var selConf =
-        '<select class="sel-estado" data-idx="' + i + '" data-campo="confirmacion">' +
+        '<select class="sel-estado' + (ok ? " sel-azul" : "") + '" data-idx="' + i + '" data-campo="confirmacion">' +
         '<option value="No confirmado"' + (ok ? "" : " selected") + ">No confirmado</option>" +
         '<option value="Confirmado"' + (ok ? " selected" : "") + ">Confirmado</option>" +
         "</select>";
       var selAsis =
-        '<select class="sel-estado" data-idx="' + i + '" data-campo="asistira">' +
+        '<select class="sel-estado' + (va ? " sel-verde" : " sel-rojo") + '" data-idx="' + i + '" data-campo="asistira">' +
         '<option value="No"' + (va ? "" : " selected") + ">No</option>" +
         '<option value="Sí"' + (va ? " selected" : "") + ">Sí</option>" +
         "</select>";
