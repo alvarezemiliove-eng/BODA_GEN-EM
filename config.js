@@ -1,6 +1,6 @@
 const CONFIG = {
-  pareja: "Génesis Fidealic Perdigón Paredes & Emilio José Álvarez Lopéz",
-  noviosCorto: "Génesis & Emilio",
+  pareja: "Emilio José Álvarez Lopéz & Génesis Fidealic Perdigón Paredes",
+  noviosCorto: "Emilio & Génesis",
   fechaTexto: "10 de Octubre del 2026",
   fechaISO: "2026-10-10T18:45:00",
   ceremoniaLugar: "Iglesia Espíritu Santo",
@@ -71,17 +71,17 @@ const CONFIG = {
         ]
       },
       {
-        titulo: "Efectivo",
-        simbolo: "$",
-        filas: []
-      },
-      {
         titulo: "Pago móvil",
         logo: "assets/logo_bancamiga.png?v=2",
         filas: [
           { etiqueta: "Cédula", valor: "24.463.004", copiar: true },
           { etiqueta: "Teléfono", valor: "0412-472-1302", copiar: true }
         ]
+      },
+      {
+        titulo: "Efectivo",
+        simbolo: "$",
+        filas: []
       }
     ]
   },
@@ -90,5 +90,6 @@ const CONFIG = {
   vestimentaNota: "De ser posible, evita usar los siguientes colores:",
   personasDefecto: "2",
   telefonoConfirmacion: "584124721302",
-  formularioURL: "https://script.google.com/macros/s/AKfycby5fOg51jeKvv4F6wbaj4RIwrwG-zJafpDPR8OXsWfDau34O6XUmes2Y3IaDlQXxvH9GA/exec"
+  formularioURL: "https://boda-invitaciones.onrender.com/api/confirmar",
+  confirmToken: ""
 };
