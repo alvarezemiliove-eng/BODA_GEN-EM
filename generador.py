@@ -162,7 +162,7 @@ def principal():
             if acortar_links:
                 link = acortar(link)
             texto = mensaje_para(fam, inv["nombre"], link, novios)
-            wa = "https://wa.me/+{0}?text={1}".format(inv["telefono"], urllib.parse.quote(texto))
+            wa = "https://wa.me/{0}?text={1}".format(inv["telefono"], urllib.parse.quote(texto))
             envio.append({"nombre": inv["nombre"], "telefono": inv["telefono"], "emisor": emisor, "mensaje": texto})
             enlaces.append("{0}\t{1}\t{2}".format(inv["nombre"], inv["telefono"], wa))
 
