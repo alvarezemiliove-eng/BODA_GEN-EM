@@ -605,6 +605,10 @@
 
     function cerrarModal() { modal.hidden = true; }
 
+    function limpiarNombre(n) {
+      return String(n || "").replace(/\s*\([^)]*\)\s*$/, "").trim();
+    }
+
     function enviarConfirmacion(asistentes) {
       modalConfirmar.disabled = true;
       var encabezados = { "Content-Type": "application/json" };
@@ -642,7 +646,7 @@
         cb.value = miembros[i];
         cb.checked = true;
         lb.appendChild(cb);
-        lb.appendChild(document.createTextNode(miembros[i]));
+        lb.appendChild(document.createTextNode(limpiarNombre(miembros[i])));
         modalLista.appendChild(lb);
       }
       modalListaTitulo.textContent = familia ? (familia + " · ¿quiénes asistirán?") : "¿Quiénes asistirán?";
@@ -651,8 +655,7 @@
 
     function mostrarModal() {
       if (!C.formularioURL) return;
-      modalInvitado.textContent = (nombre || "Invitado") +
-        (miembros.length ? " · " + familia : " (" + personas + (personas === "1" ? " persona" : " personas") + ")");
+      modalInvitado.textContent = limpiarNombre(nombre) || "Invitado";
       modalOk.hidden = true;
       modalErr.hidden = true;
       modalSi.disabled = false;
