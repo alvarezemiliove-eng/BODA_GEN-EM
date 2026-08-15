@@ -28,8 +28,15 @@ PANEL_FILE = "panel.html"
 CONFIG_FILE = "config.js"
 
 MENSAJE_DEFECTO = (
-    "Hola {nombre}! {novios} tenemos el gusto de invitarte a nuestra boda. "
-    "Aqui esta tu invitacion personalizada: {link}"
+    "¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨\n\n"
+    "Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda "
+    "y celebrar juntos el inicio de este nuevo capítulo.\n\n"
+    "Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:\n"
+    "👇\n"
+    "{link}\n\n"
+    "Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente "
+    "que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.\n\n"
+    "Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂"
 )
 
 BASE_URL_DEFECTO = "https://alvarezemiliove-eng.github.io/BODA_GEN-EM/invitacion.html"
