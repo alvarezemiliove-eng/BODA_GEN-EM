@@ -1,0 +1,802 @@
+[
+  {
+    "n_inv": "1",
+    "nombre": "Emilio Álvarez",
+    "familia": "Flia. Álvarez López",
+    "telefono": "584122651484",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "1",
+    "nombre": "Lecsy López",
+    "familia": "Flia. Álvarez López",
+    "telefono": "584124722237",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "1",
+    "nombre": "Lilia Álvarez",
+    "familia": "Flia. Álvarez López",
+    "telefono": "33771219956",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "2",
+    "nombre": "Josefina",
+    "familia": "Lilia Josefina Parra",
+    "telefono": "584246112389",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "3",
+    "nombre": "Richard Perdigón",
+    "familia": "Flia. Perdigón Paredes",
+    "telefono": "584263582466",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "3",
+    "nombre": "Lisbeth Paredes",
+    "familia": "Flia. Perdigón Paredes",
+    "telefono": "584144759267",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "3",
+    "nombre": "Dayana Perdigón",
+    "familia": "Flia. Perdigón Paredes",
+    "telefono": "584245978157",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "4",
+    "nombre": "Ronald Perdigón",
+    "familia": "Flia. Perdigón Castillo",
+    "telefono": "584245778697",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "4",
+    "nombre": "Margot Castillo",
+    "familia": "Flia. Perdigón Castillo",
+    "telefono": "584265501967",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "4",
+    "nombre": "Valeria Perdigón",
+    "familia": "Flia. Perdigón Castillo",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "5",
+    "nombre": "Alicia Daza",
+    "familia": "Alicia Daza",
+    "telefono": "584129526677",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "6",
+    "nombre": "Gianfranco Guerrera (Padrino)",
+    "familia": "Gianfranco Guerrera y Verónica Rojas",
+    "telefono": "584241780852",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "6",
+    "nombre": "Veronia Rojas",
+    "familia": "Gianfranco Guerrera y Verónica Rojas",
+    "telefono": "584148921974",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "7",
+    "nombre": "Neida González",
+    "familia": "Flia. Verde González",
+    "telefono": "584125215218",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "7",
+    "nombre": "Jorge Verde",
+    "familia": "Flia. Verde González",
+    "telefono": "584245316655",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "8",
+    "nombre": "Moises Chumpitas",
+    "familia": "Moises Chumpitaz",
+    "telefono": "584126766495",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "9",
+    "nombre": "Maria Veronica Paredes",
+    "familia": "Flia. Espinoza Paredes",
+    "telefono": "584265544728",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "9",
+    "nombre": "Martín Espinoza",
+    "familia": "Flia. Espinoza Paredes",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "9",
+    "nombre": "Fabriccio Espinoza",
+    "familia": "Flia. Espinoza Paredes",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "10",
+    "nombre": "Araleni Cordones",
+    "familia": "Araleni Cordones",
+    "telefono": "584245135948",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "11",
+    "nombre": "Katiuska Perdigón",
+    "familia": "Flia. Duarte Perdigón",
+    "telefono": "584126448841",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "11",
+    "nombre": "Jhonny Duarte",
+    "familia": "Flia. Duarte Perdigón",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "11",
+    "nombre": "Santiago Duarte",
+    "familia": "Flia. Duarte Perdigón",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "12",
+    "nombre": "Daisy Perdigón",
+    "familia": "Daisy Perdigón",
+    "telefono": "584167557829",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "13",
+    "nombre": "Zaida Perdigón",
+    "familia": "Flia. Montenegro Perdigón",
+    "telefono": "584269455796",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "13",
+    "nombre": "Efrain Montenegro",
+    "familia": "Flia. Montenegro Perdigón",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "13",
+    "nombre": "Lea Montenegro",
+    "familia": "Flia. Montenegro Perdigón",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "14",
+    "nombre": "Yubiry Daza",
+    "familia": "Flia. Torres Daza",
+    "telefono": "584142955196",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "14",
+    "nombre": "Pedro Torres",
+    "familia": "Flia. Torres Daza",
+    "telefono": "584245643660",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "14",
+    "nombre": "M. Gabriela Torres",
+    "familia": "Flia. Torres Daza",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "15",
+    "nombre": "Yurayma Daza",
+    "familia": "Flia. Suarez Daza",
+    "telefono": "584245592136",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "15",
+    "nombre": "Yuroany Suarez",
+    "familia": "Flia. Suarez Daza",
+    "telefono": "584140551698",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "15",
+    "nombre": "Yair Suarez",
+    "familia": "Flia. Suarez Daza",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "16",
+    "nombre": "Yadira Flores",
+    "familia": "Yadira Flores y Hector Delgado",
+    "telefono": "584126463001",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "16",
+    "nombre": "Hector Delgado",
+    "familia": "Yadira Flores y Hector Delgado",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "17",
+    "nombre": "Argimiro Flores",
+    "familia": "Argimiro Flores",
+    "telefono": "584145780578",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "18",
+    "nombre": "Atahualpa Daza",
+    "familia": "Atahualpa Daza y Mercedes Reyes",
+    "telefono": "584166509333",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "18",
+    "nombre": "Mercedes Reyes",
+    "familia": "Atahualpa Daza y Mercedes Reyes",
+    "telefono": "584123550930",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "19",
+    "nombre": "Paola Hernandez",
+    "familia": "Paola Hernández",
+    "telefono": "584263086035",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "20",
+    "nombre": "Alejandra Sevilla",
+    "familia": "Alejandra Sevilla",
+    "telefono": "584121529940",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "21",
+    "nombre": "Nelson Pérez",
+    "familia": "Nelson Pérez",
+    "telefono": "584245658913",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "21",
+    "nombre": "Sofia Camacaro",
+    "familia": "Nelson Pérez",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "22",
+    "nombre": "Andrea Vergara",
+    "familia": "Andrea Vergara",
+    "telefono": "59893512077",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "23",
+    "nombre": "Humberto Vera",
+    "familia": "Humberto Vera",
+    "telefono": "584121092501",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "23",
+    "nombre": "Yenny",
+    "familia": "Humberto Vera",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "24",
+    "nombre": "María de los Ángeles Herrera",
+    "familia": "María de los Ángeles Herrera",
+    "telefono": "584145007250",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "25",
+    "nombre": "Maykha Espinal",
+    "familia": "Maykha Espinal",
+    "telefono": "584125081261",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "26",
+    "nombre": "Maritza López",
+    "familia": "Nain Parra y Maritza López",
+    "telefono": "584146463211",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "26",
+    "nombre": "Nain Parra",
+    "familia": "Nain Parra y Maritza López",
+    "telefono": "584147902719",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "27",
+    "nombre": "José Paúl Richard López",
+    "familia": "José Paúl Richard López y Gleidy Parra",
+    "telefono": "584146338085",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "27",
+    "nombre": "Gleidy Parra",
+    "familia": "José Paúl Richard López y Gleidy Parra",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "28",
+    "nombre": "Paul López",
+    "familia": "Paul López y Clara Nava",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "28",
+    "nombre": "Clara Nava",
+    "familia": "Paul López y Clara Nava",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "29",
+    "nombre": "Nain José Parra",
+    "familia": "Flia. Parra Flores",
+    "telefono": "584246891016",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "29",
+    "nombre": "Sorena Flores",
+    "familia": "Flia. Parra Flores",
+    "telefono": "584143600302",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "29",
+    "nombre": "Naia Parra",
+    "familia": "Flia. Parra Flores",
+    "telefono": "",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "29",
+    "nombre": "Camila Parra",
+    "familia": "Flia. Parra Flores",
+    "telefono": "",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "30",
+    "nombre": "Vanessa Flores",
+    "familia": "Vanessa Flores",
+    "telefono": "584146025836",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "31",
+    "nombre": "Nainmary Parra",
+    "familia": "Nainmary, Amanda y Gilberto",
+    "telefono": "584246534502",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "31",
+    "nombre": "Amanda Ramirez",
+    "familia": "Nainmary, Amanda y Gilberto",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "31",
+    "nombre": "Gilberto Ramirez",
+    "familia": "Nainmary, Amanda y Gilberto",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "32",
+    "nombre": "Nain Roberto Parra",
+    "familia": "Flia. Parra Barroeta",
+    "telefono": "584146187258",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "32",
+    "nombre": "Rosalba Barroeta",
+    "familia": "Flia. Parra Barroeta",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "32",
+    "nombre": "Daniel Parra",
+    "familia": "Flia. Parra Barroeta",
+    "telefono": "",
+    "valido": "3",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "33",
+    "nombre": "Luis Flores",
+    "familia": "Luis Flores",
+    "telefono": "584121543401",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "34",
+    "nombre": "Doménico De Palma",
+    "familia": "Doménico De Palma",
+    "telefono": "584243743481",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "34",
+    "nombre": "Valentina Barbero",
+    "familia": "Doménico De Palma",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "35",
+    "nombre": "Heliana Solett",
+    "familia": "Heliana Solett",
+    "telefono": "584148678495",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "35",
+    "nombre": "Guillermo Salazar",
+    "familia": "Heliana Solett",
+    "telefono": "",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "36",
+    "nombre": "Andrea Medina",
+    "familia": "Andrea Medina",
+    "telefono": "584244538109",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "37",
+    "nombre": "Valentina Rosas",
+    "familia": "Valentina Rosas",
+    "telefono": "584148264452",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "38",
+    "nombre": "Gerson Felizardo",
+    "familia": "Gerson Felizardo",
+    "telefono": "",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "39",
+    "nombre": "Maria Beatriz Hernandez",
+    "familia": "Maria Beatriz Hernandez",
+    "telefono": "584165534271",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "40",
+    "nombre": "Carmen López",
+    "familia": "Oswaldo Capriles y Carmen López",
+    "telefono": "584142395056",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "40",
+    "nombre": "Oswaldo Capriles",
+    "familia": "Oswaldo Capriles y Carmen López",
+    "telefono": "584148059968",
+    "valido": "2",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "41",
+    "nombre": "Pablo Capriles",
+    "familia": "Pablo Capriles",
+    "telefono": "17869220262",
+    "valido": "1",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "42",
+    "nombre": "Juan Verde",
+    "familia": "Flia. Verde Capriles",
+    "telefono": "584123139111",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "42",
+    "nombre": "Karen Capriles",
+    "familia": "Flia. Verde Capriles",
+    "telefono": "584122139112",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "42",
+    "nombre": "Gabriel Verde",
+    "familia": "Flia. Verde Capriles",
+    "telefono": "",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  },
+  {
+    "n_inv": "42",
+    "nombre": "Rafael Verde",
+    "familia": "Flia. Verde Capriles",
+    "telefono": "",
+    "valido": "4",
+    "confirmacion": "No confirmado",
+    "asistira": "No",
+    "fecha": ""
+  }
+]

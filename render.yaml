@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: boda-invitaciones
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    autoDeploy: true
+    envVars:
+      - key: GITHUB_REPO
+        value: alvarezemiliove-eng/BODA_GEN-EM
+      - key: GITHUB_BRANCH
+        value: main
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: AUTH_TOKEN
+        sync: false
