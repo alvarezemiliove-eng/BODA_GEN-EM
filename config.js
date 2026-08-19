@@ -48,6 +48,19 @@ const CONFIG = {
     mensaje: "Con su presencia nos regalan el mejor de los momentos. Quienes quieran sumarse a los sueños que empezamos a construir, pueden hacerlo a través de:",
     cuentas: [
       {
+        titulo: "Pago móvil",
+        logo: "assets/logo_bancamiga.png?v=2",
+        filas: [
+          { etiqueta: "Cédula", valor: "24.463.004", copiar: true },
+          { etiqueta: "Teléfono", valor: "0412-472-1302", copiar: true }
+        ]
+      },
+      {
+        titulo: "Efectivo",
+        simbolo: "$",
+        filas: []
+      },
+      {
         titulo: "Transferencias en Dólares",
         logo: "assets/logo_facebank.png",
         filas: [
@@ -69,19 +82,6 @@ const CONFIG = {
           { etiqueta: "Binance ID (UID)", valor: "183874567", copiar: true },
           { etiqueta: "E-Mail", valor: "perdigongenesis@gmail.com", copiar: true }
         ]
-      },
-      {
-        titulo: "Pago móvil",
-        logo: "assets/logo_bancamiga.png?v=2",
-        filas: [
-          { etiqueta: "Cédula", valor: "24.463.004", copiar: true },
-          { etiqueta: "Teléfono", valor: "0412-472-1302", copiar: true }
-        ]
-      },
-      {
-        titulo: "Efectivo",
-        simbolo: "$",
-        filas: []
       }
     ]
   },
