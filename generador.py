@@ -98,9 +98,11 @@ def enlace_invitacion(base, familia, integrantes, valido, remitente):
 
 
 def slugificar(nombre):
-    """Convierte un nombre a slug seguro para nombres de archivo."""
+    """Convierte un nombre a slug seguro para nombres de archivo.
+    Quita roles como (Padrino), (Madrina), etc."""
     import re
     s = nombre.lower().strip()
+    s = re.sub(r'\s*\([^)]*\)\s*', ' ', s)  # quita "(Padrino)" y similares
     s = re.sub(r'[áà]', 'a', s)
     s = re.sub(r'[éè]', 'e', s)
     s = re.sub(r'[íì]', 'i', s)
