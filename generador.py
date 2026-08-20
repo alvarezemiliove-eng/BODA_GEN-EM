@@ -97,8 +97,8 @@ def enlace_invitacion(base, familia, integrantes, valido, remitente):
 
 
 def acortar(enlace):
-    """Acorta la URL con da.gd (sin publicidad, sin cuenta)."""
-    api = "https://da.gd/s?url=" + urllib.parse.quote(enlace, safe="")
+    """Acorta la URL con TinyURL (sin publicidad, sin cuenta)."""
+    api = "https://tinyurl.com/api-create.php?url=" + urllib.parse.quote(enlace, safe="")
     try:
         with urllib.request.urlopen(api, timeout=30) as r:
             corto = r.read().decode("utf-8").strip()
