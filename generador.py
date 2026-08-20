@@ -27,6 +27,7 @@ ENVIO_FILE = "envio.csv"
 ENLACES_FILE = "enlaces.txt"
 PANEL_FILE = "panel.html"
 CONFIG_FILE = "config.js"
+REDIRECT_DIR = "r"
 
 MENSAJE_DEFECTO = (
     "¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨\n\n"
@@ -96,15 +97,53 @@ def enlace_invitacion(base, familia, integrantes, valido, remitente):
     return url
 
 
-def acortar(enlace):
-    """Acorta la URL con TinyURL (sin publicidad, sin cuenta)."""
-    api = "https://tinyurl.com/api-create.php?url=" + urllib.parse.quote(enlace, safe="")
-    try:
-        with urllib.request.urlopen(api, timeout=30) as r:
-            corto = r.read().decode("utf-8").strip()
-        return corto if corto.startswith("http") else enlace
-    except Exception:
-        return enlace
+def slugificar(nombre):
+    """Convierte un nombre a slug seguro para nombres de archivo."""
+    import re
+    s = nombre.lower().strip()
+    s = re.sub(r'[áà]', 'a', s)
+    s = re.sub(r'[éè]', 'e', s)
+    s = re.sub(r'[íì]', 'i', s)
+    s = re.sub(r'[óò]', 'o', s)
+    s = re.sub(r'[úù]', 'u', s)
+    s = re.sub(r'[ñ]', 'n', s)
+    s = re.sub(r'[^a-z0-9]+', '-', s)
+    s = s.strip('-')
+    return s or "invitado"
+
+
+def generar_redirect(slug, url_destino):
+    """Genera el HTML mínimo de redirect para un slug."""
+    return (
+        '<!DOCTYPE html>\n'
+        '<html lang="es">\n'
+        '<head>\n'
+        '<meta charset="UTF-8">\n'
+        '<meta http-equiv="refresh" content="0;url={url}">\n'
+        '<title>Invitación</title>\n'
+        '</head>\n'
+        '<body></body>\n'
+        '</html>\n'
+    ).format(url=url_destino)
+
+
+def crear_redirects(base_url, familias, redirect_dir):
+    """Crea archivos HTML de redirect en redirect_dir, uno por invitado.
+    Devuelve dict {nombre: slug} para mapear links."""
+    os.makedirs(redirect_dir, exist_ok=True)
+    slugs = {}
+    for fam in familias:
+        for inv in fam["integrantes"]:
+            nombre = inv["nombre"]
+            slug = slugificar(nombre)
+            url_full = enlace_invitacion(base_url, fam["nombre"], fam["integrantes"],
+                                         fam["valido"] or str(len(fam["integrantes"])), nombre)
+            html_content = generar_redirect(slug, url_full)
+            ruta = os.path.join(redirect_dir, slug + ".html")
+            with open(ruta, "w", encoding="utf-8") as f:
+                f.write(html_content)
+            slugs[nombre] = slug
+    return slugs
 
 
 def mensaje_para(familia, remitente, enlace, novios):
@@ -150,6 +189,15 @@ def principal():
     if not familias:
         sys.exit("No se pudieron agrupar familias del CSV.")
 
+    # Si --short, crear redirects locales en vez de TinyURL
+    slugs = {}
+    redirect_base = base_url
+    if acortar_links:
+        slugs = crear_redirects(base_url, familias, REDIRECT_DIR)
+        # La base para los links cortos es la carpeta /r/ de GitHub Pages
+        idx = base_url.rfind("/")
+        redirect_base = base_url[:idx + 1] + REDIRECT_DIR + "/"
+
     envio = []
     enlaces = []
     manuales = []
@@ -166,9 +214,11 @@ def principal():
             continue
 
         for inv in con_telefono:
-            link = enlace_invitacion(base_url, familia_nombre, fam["integrantes"], valido, inv["nombre"])
             if acortar_links:
-                link = acortar(link)
+                slug = slugs.get(inv["nombre"], slugificar(inv["nombre"]))
+                link = redirect_base + slug + ".html"
+            else:
+                link = enlace_invitacion(base_url, familia_nombre, fam["integrantes"], valido, inv["nombre"])
             texto = mensaje_para(fam, inv["nombre"], link, novios)
             wa = "https://api.whatsapp.com/send?phone={0}&text={1}".format(inv["telefono"], urllib.parse.quote(texto))
             envio.append({"nombre": inv["nombre"], "telefono": inv["telefono"], "emisor": emisor, "mensaje": texto})
@@ -208,11 +258,15 @@ def principal():
     print("  Familias detectadas : {0}".format(len(familias)))
     print("  Envios automaticos  : {0}".format(len(envio)))
     print("  Familias incompletas (sin telefono de algun integrante): {0}".format(len(manuales)))
+    if acortar_links:
+        print("  Redirects generados : {0} archivos en /{1}/".format(len(slugs), REDIRECT_DIR))
     print("\nArchivos generados:")
     print("  - {0} : mensajes listos para el enviador".format(envio_file))
     print("  - {0} : links api.whatsapp.com por invitado".format(enlaces_file))
     print("  - {0} : panel de envio manual".format(panel_file))
     print("  - {0} : mensajes para copiar y pegar (envio manual)".format(mensajes_file))
+    if acortar_links:
+        print("  - {0}/ : redirects HTML (subir a GitHub Pages)".format(REDIRECT_DIR))
     print("\nEjemplo de enlace personalizado:")
     if envio:
         print("  " + envio[0]["mensaje"])
