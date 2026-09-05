@@ -225,9 +225,9 @@
     "familia": "Flia. Duarte Perdigón",
     "telefono": "",
     "valido": "3",
-    "confirmacion": "No confirmado",
-    "asistira": "Sí",
-    "fecha": ""
+    "confirmacion": "Confirmado",
+    "asistira": "No",
+    "fecha": "2026-09-05T01:19:22.640Z"
   },
   {
     "n_inv": "12",
