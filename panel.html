@@ -5,22 +5,51 @@
 <title>Panel de envio - Invitaciones</title>
 <style>
   body { font-family: Georgia, serif; background: #faf6ef; color: #2e2a26; margin: 0; padding: 2rem; }
-  h1 { font-size: 1.3rem; font-weight: normal; letter-spacing: .1em; }
+  h1 { font-size: 1.3rem; font-weight: normal; letter-spacing: .1em; margin-bottom: 1.2rem; }
   p { color: #8a8377; font-size: .9rem; }
+  .tabs { display: flex; gap: .5rem; margin-bottom: 1.4rem; }
+  .tabs button { background: #fff; border: 1px solid rgba(176,141,87,.4); color: #2e2a26;
+         padding: .55rem 1.2rem; border-radius: 50px; font-family: inherit; font-size: .85rem;
+         cursor: pointer; letter-spacing: .06em; }
+  .tabs button.act { background: #2e2a26; color: #faf6ef; border-color: #2e2a26; }
+  .panel.tab { display: none; }
+  .panel.tab.act { display: block; }
   .c { background: #fff; border: 1px solid rgba(176,141,87,.3); border-radius: 10px;
        padding: 1rem 1.2rem; margin-bottom: .8rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
   .c strong { min-width: 160px; }
-  .c a { background: #2e2a26; color: #faf6ef; text-decoration: none; padding: .5rem 1rem;
-         border-radius: 50px; font-size: .85rem; white-space: nowrap; }
-  .c a:hover { background: #b08d57; }
+  .c a, .c .copiar { background: #2e2a26; color: #faf6ef; text-decoration: none; padding: .5rem 1rem;
+         border: none; border-radius: 50px; font-size: .85rem; white-space: nowrap; font-family: inherit; cursor: pointer; }
+  .c a:hover, .c .copiar:hover { background: #b08d57; }
+  .c.sin { border-style: dashed; }
   .c .msg { flex-basis: 100%; font-size: .82rem; line-height: 1.55; color: #4a443b; white-space: pre-line;
             background: #fbf8f2; border: 1px solid rgba(176,141,87,.2); border-radius: 8px; padding: .7rem .9rem; margin: .4rem 0 0; }
   @media (max-width: 640px) { .c { flex-direction: column; align-items: flex-start; } }
 </style>
 </head>
 <body>
-<h1>Panel de envio - 54 invitaciones</h1>
-<p>Haz clic en cada boton para abrir WhatsApp con el mensaje ya escrito.</p>
+<script>
+function copiarLink(btn) {
+  navigator.clipboard.writeText(btn.dataset.link).then(function () {
+    var t = btn.textContent; btn.textContent = 'Copiado'; btn.disabled = true;
+    setTimeout(function () { btn.textContent = t; btn.disabled = false; }, 1500);
+  });
+}
+function tabAct(bt, quien) {
+  var btns = document.querySelectorAll('.tabs button');
+  var pels = document.querySelectorAll('.panel.tab');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('act');
+  for (var i = 0; i < pels.length; i++) pels[i].classList.remove('act');
+  bt.classList.add('act');
+  document.getElementById('panel-' + quien).classList.add('act');
+}
+</script>
+<h1>Panel de envio - Invitaciones</h1>
+<div class="tabs">
+  <button class="act" onclick="tabAct(this, 'wa')">WhatsApp (54)</button>
+  <button onclick="tabAct(this, 'sin')">Sin telefono (28)</button>
+</div>
+<div class="panel tab act" id="panel-wa">
+  <p>Haz clic en cada boton para abrir WhatsApp con el mensaje ya escrito.</p>
 <div class="c"><strong>Emilio Álvarez</strong><a href="https://api.whatsapp.com/send?phone=584122651484&amp;text=%C2%A1Hay%20momentos%20en%20la%20vida%20que%20merecen%20compartirse%20con%20las%20personas%20m%C3%A1s%20especiales%21%20%F0%9F%95%8A%EF%B8%8F%E2%9C%A8%0A%0ACon%20gran%20alegr%C3%ADa%20e%20ilusi%C3%B3n%2C%20queremos%20invitarte%20a%20acompa%C3%B1arnos%20en%20el%20d%C3%ADa%20de%20nuestra%20boda%20y%20celebrar%20juntos%20el%20inicio%20de%20este%20nuevo%20cap%C3%ADtulo.%0A%0APuedes%20consultar%20todos%20los%20detalles%20de%20la%20invitaci%C3%B3n%20ingresando%20al%20siguiente%20enlace%3A%0A%F0%9F%91%87%0Ahttps%3A//alvarezemiliove-eng.github.io/BODA_GEN-EM/r/emilio-alvarez.html%0A%0ANota%20importante%3A%20Para%20facilitarnos%20la%20organizaci%C3%B3n%20del%20evento%2C%20te%20agradecer%C3%ADamos%20enormemente%20que%20nos%20confirmes%20tu%20asistencia%20con%20la%20mayor%20brevedad%20posible%2C%20teniendo%20como%20fecha%20l%C3%ADmite%20un%20mes%20antes%20de%20la%20boda.%0A%0ASer%C3%A1%20un%20honor%20contar%20con%20tu%20presencia%20en%20esta%20ocasi%C3%B3n%20tan%20especial.%20%E2%9D%A4%EF%B8%8F%F0%9F%A5%82" target="_blank" rel="noopener">Abrir WhatsApp</a><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
 
 Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
@@ -561,6 +590,289 @@ https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/karen-capriles.html
 
 Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
 
-Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div>
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div></div>
+<div class="panel tab" id="panel-sin">
+  <p>Copiar el link y enviar el mensaje manualmente.</p>
+<div class="c sin"><strong>Valeria Perdigón</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/valeria-perdigon.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/valeria-perdigon.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Martín Espinoza</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/martin-espinoza.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/martin-espinoza.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Fabriccio Espinoza</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/fabriccio-espinoza.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/fabriccio-espinoza.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Jhonny Duarte</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/jhonny-duarte.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/jhonny-duarte.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Santiago Duarte</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/santiago-duarte.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/santiago-duarte.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Efrain Montenegro</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/efrain-montenegro.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/efrain-montenegro.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Lea Montenegro</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/lea-montenegro.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/lea-montenegro.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>M. Gabriela Torres</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/m-gabriela-torres.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/m-gabriela-torres.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Yair Suarez</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/yair-suarez.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/yair-suarez.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Hector Delgado</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/hector-delgado.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/hector-delgado.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Sofia Camacaro</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/sofia-camacaro.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/sofia-camacaro.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Yenny</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/yenny.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/yenny.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Gleidy Parra</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gleidy-parra.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gleidy-parra.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Paul López</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/paul-lopez.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/paul-lopez.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Clara Nava</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/clara-nava.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/clara-nava.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Clara Nava</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/clara-nava.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/clara-nava.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Naia Parra</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/naia-parra.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/naia-parra.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Camila Parra</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/camila-parra.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/camila-parra.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Amanda Ramirez</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/amanda-ramirez.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/amanda-ramirez.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Gilberto Ramirez</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gilberto-ramirez.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gilberto-ramirez.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Rosalba Barroeta</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/rosalba-barroeta.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/rosalba-barroeta.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Daniel Parra</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/daniel-parra.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/daniel-parra.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Valentina Barbero</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/valentina-barbero.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/valentina-barbero.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Guillermo Salazar</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/guillermo-salazar.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/guillermo-salazar.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Gerson Felizardo</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gerson-felizardo.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gerson-felizardo.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Gabriel Verde</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gabriel-verde.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/gabriel-verde.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Rafael Verde</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/rafael-verde.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/rafael-verde.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div><div class="c sin"><strong>Lilian El Kareh</strong><button class="copiar" onclick="copiarLink(this)" data-link="https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/lilian-el-kareh.html">Copiar link</button><p class="msg">¡Hay momentos en la vida que merecen compartirse con las personas más especiales! 🕊️✨
+
+Con gran alegría e ilusión, queremos invitarte a acompañarnos en el día de nuestra boda y celebrar juntos el inicio de este nuevo capítulo.
+
+Puedes consultar todos los detalles de la invitación ingresando al siguiente enlace:
+👇
+https://alvarezemiliove-eng.github.io/BODA_GEN-EM/r/lilian-el-kareh.html
+
+Nota importante: Para facilitarnos la organización del evento, te agradeceríamos enormemente que nos confirmes tu asistencia con la mayor brevedad posible, teniendo como fecha límite un mes antes de la boda.
+
+Será un honor contar con tu presencia en esta ocasión tan especial. ❤️🥂</p></div></div>
 </body>
 </html>

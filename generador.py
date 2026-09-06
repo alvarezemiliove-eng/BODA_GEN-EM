@@ -88,12 +88,14 @@ def agrupar_familias(filas):
     return familias
 
 
-def enlace_invitacion(base, familia, integrantes, valido, remitente):
+def enlace_invitacion(base, familia, integrantes, valido, remitente, ocultar_valido=False):
     miembros = "|".join(i["nombre"] for i in integrantes)
     url = base + "?n=" + urllib.parse.quote(remitente)
     url += "&p=" + urllib.parse.quote(valido or str(len(integrantes)))
     url += "&fam=" + urllib.parse.quote(familia)
     url += "&m=" + urllib.parse.quote(miembros)
+    if ocultar_valido:
+        url += "&v=0"
     return url
 
 
@@ -139,7 +141,8 @@ def crear_redirects(base_url, familias, redirect_dir):
             nombre = inv["nombre"]
             slug = slugificar(nombre)
             url_full = enlace_invitacion(base_url, fam["nombre"], fam["integrantes"],
-                                         fam["valido"] or str(len(fam["integrantes"])), nombre)
+                                         fam["valido"] or str(len(fam["integrantes"])), nombre,
+                                         ocultar_valido=not fam["valido"])
             html_content = generar_redirect(slug, url_full)
             ruta = os.path.join(redirect_dir, slug + ".html")
             with open(ruta, "w", encoding="utf-8") as f:
@@ -203,6 +206,7 @@ def principal():
     envio = []
     enlaces = []
     manuales = []
+    sin_link = []
 
     for fam in familias:
         familia_nombre = fam["nombre"]
@@ -212,6 +216,11 @@ def principal():
         sin_telefono = [i for i in fam["integrantes"] if not i["telefono"]]
 
         if not con_telefono:
+            for inv in sin_telefono:
+                slug = slugs.get(inv["nombre"], slugificar(inv["nombre"]))
+                link = redirect_base + slug + ".html"
+                texto = mensaje_para(fam, inv["nombre"], link, novios)
+                sin_link.append({"nombre": inv["nombre"], "link": link, "mensaje": texto})
             manuales.append(fam)
             continue
 
@@ -220,13 +229,19 @@ def principal():
                 slug = slugs.get(inv["nombre"], slugificar(inv["nombre"]))
                 link = redirect_base + slug + ".html"
             else:
-                link = enlace_invitacion(base_url, familia_nombre, fam["integrantes"], valido, inv["nombre"])
+                link = enlace_invitacion(base_url, familia_nombre, fam["integrantes"], valido, inv["nombre"],
+                                         ocultar_valido=not fam["valido"])
             texto = mensaje_para(fam, inv["nombre"], link, novios)
             wa = "https://api.whatsapp.com/send?phone={0}&text={1}".format(inv["telefono"], urllib.parse.quote(texto))
             envio.append({"nombre": inv["nombre"], "telefono": inv["telefono"], "emisor": emisor, "mensaje": texto})
             enlaces.append("{0}\t{1}\t{2}".format(inv["nombre"], inv["telefono"], wa))
 
         if sin_telefono:
+            for inv in sin_telefono:
+                slug = slugs.get(inv["nombre"], slugificar(inv["nombre"]))
+                link = redirect_base + slug + ".html"
+                texto = mensaje_para(fam, inv["nombre"], link, novios)
+                sin_link.append({"nombre": inv["nombre"], "link": link, "mensaje": texto})
             manuales.append(fam)
 
     with open(envio_file, "w", encoding="utf-8") as f:
@@ -243,7 +258,7 @@ def principal():
         f.write("\n".join(enlaces) + "\n")
 
     with open(panel_file, "w", encoding="utf-8") as f:
-        f.write(generar_panel(enlaces))
+        f.write(generar_panel(enlaces, sin_link))
 
     # Mensajes completos listos para copiar y pegar (envio manual)
     with open(mensajes_file, "w", encoding="utf-8") as f:
@@ -282,21 +297,30 @@ def principal():
                 fam["nombre"], fam["valido"], ", ".join(con) or "-", ", ".join(sin) or "-"))
 
 
-def generar_panel(enlaces):
-    tarjetas = ""
+def generar_panel(enlaces, sin_link=None):
+    sin_link = sin_link or []
+    tarjetas_wa = ""
     for linea in enlaces:
         partes = linea.split("\t")
         nombre = partes[0]
         wa = partes[2]
         q = urllib.parse.urlparse(wa).query
         texto = urllib.parse.parse_qs(q).get("text", [""])[0]
-        tarjetas += (
+        tarjetas_wa += (
             '<div class="c">'
             "<strong>{0}</strong>"
             '<a href="{1}" target="_blank" rel="noopener">Abrir WhatsApp</a>'
             '<p class="msg">{2}</p>'
             "</div>"
         ).format(nombre, html.escape(wa, quote=True), html.escape(texto))
+    tarjetas_sin = ""
+    for sin in sin_link:
+        tarjetas_sin += (
+            '<div class="c sin"><strong>{0}</strong>'
+            '<button class="copiar" onclick="copiarLink(this)" data-link="{1}">Copiar link</button>'
+            '<p class="msg">{2}</p>'
+            '</div>'
+        ).format(sin["nombre"], html.escape(sin["link"], quote=True), html.escape(sin["mensaje"]))
     return (
         "<!DOCTYPE html>\n"
         "<html lang=\"es\">\n"
@@ -305,24 +329,58 @@ def generar_panel(enlaces):
         "<title>Panel de envio - Invitaciones</title>\n"
         "<style>\n"
         "  body { font-family: Georgia, serif; background: #faf6ef; color: #2e2a26; margin: 0; padding: 2rem; }\n"
-        "  h1 { font-size: 1.3rem; font-weight: normal; letter-spacing: .1em; }\n"
+        "  h1 { font-size: 1.3rem; font-weight: normal; letter-spacing: .1em; margin-bottom: 1.2rem; }\n"
         "  p { color: #8a8377; font-size: .9rem; }\n"
+        "  .tabs { display: flex; gap: .5rem; margin-bottom: 1.4rem; }\n"
+        "  .tabs button { background: #fff; border: 1px solid rgba(176,141,87,.4); color: #2e2a26;\n"
+        "         padding: .55rem 1.2rem; border-radius: 50px; font-family: inherit; font-size: .85rem;\n"
+        "         cursor: pointer; letter-spacing: .06em; }\n"
+        "  .tabs button.act { background: #2e2a26; color: #faf6ef; border-color: #2e2a26; }\n"
+        "  .panel.tab { display: none; }\n"
+        "  .panel.tab.act { display: block; }\n"
         "  .c { background: #fff; border: 1px solid rgba(176,141,87,.3); border-radius: 10px;\n"
         "       padding: 1rem 1.2rem; margin-bottom: .8rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }\n"
         "  .c strong { min-width: 160px; }\n"
-        "  .c a { background: #2e2a26; color: #faf6ef; text-decoration: none; padding: .5rem 1rem;\n"
-        "         border-radius: 50px; font-size: .85rem; white-space: nowrap; }\n"
-        "  .c a:hover { background: #b08d57; }\n"
+        "  .c a, .c .copiar { background: #2e2a26; color: #faf6ef; text-decoration: none; padding: .5rem 1rem;\n"
+        "         border: none; border-radius: 50px; font-size: .85rem; white-space: nowrap; font-family: inherit; cursor: pointer; }\n"
+        "  .c a:hover, .c .copiar:hover { background: #b08d57; }\n"
+        "  .c.sin { border-style: dashed; }\n"
         "  .c .msg { flex-basis: 100%; font-size: .82rem; line-height: 1.55; color: #4a443b; white-space: pre-line;\n"
         "            background: #fbf8f2; border: 1px solid rgba(176,141,87,.2); border-radius: 8px; padding: .7rem .9rem; margin: .4rem 0 0; }\n"
         "  @media (max-width: 640px) { .c { flex-direction: column; align-items: flex-start; } }\n"
         "</style>\n"
         "</head>\n"
         "<body>\n"
-        "<h1>Panel de envio - " + str(len(enlaces)) + " invitaciones</h1>\n"
-        "<p>Haz clic en cada boton para abrir WhatsApp con el mensaje ya escrito.</p>\n"
-        + tarjetas +
-        "\n</body>\n</html>"
+        "<script>\n"
+        "function copiarLink(btn) {\n"
+        "  navigator.clipboard.writeText(btn.dataset.link).then(function () {\n"
+        "    var t = btn.textContent; btn.textContent = 'Copiado'; btn.disabled = true;\n"
+        "    setTimeout(function () { btn.textContent = t; btn.disabled = false; }, 1500);\n"
+        "  });\n"
+        "}\n"
+        "function tabAct(bt, quien) {\n"
+        "  var btns = document.querySelectorAll('.tabs button');\n"
+        "  var pels = document.querySelectorAll('.panel.tab');\n"
+        "  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('act');\n"
+        "  for (var i = 0; i < pels.length; i++) pels[i].classList.remove('act');\n"
+        "  bt.classList.add('act');\n"
+        "  document.getElementById('panel-' + quien).classList.add('act');\n"
+        "}\n"
+        "</script>\n"
+        "<h1>Panel de envio - Invitaciones</h1>\n"
+        "<div class=\"tabs\">\n"
+        "  <button class=\"act\" onclick=\"tabAct(this, 'wa')\">WhatsApp (" + str(len(enlaces)) + ")</button>\n"
+        "  <button onclick=\"tabAct(this, 'sin')\">Sin telefono (" + str(len(sin_link)) + ")</button>\n"
+        "</div>\n"
+        "<div class=\"panel tab act\" id=\"panel-wa\">\n"
+        "  <p>Haz clic en cada boton para abrir WhatsApp con el mensaje ya escrito.</p>\n"
+        + tarjetas_wa +
+        "</div>\n"
+        "<div class=\"panel tab\" id=\"panel-sin\">\n"
+        "  <p>Copiar el link y enviar el mensaje manualmente.</p>\n"
+        + tarjetas_sin +
+        "</div>\n"
+        "</body>\n</html>"
     )
 
 
