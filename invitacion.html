@@ -407,7 +407,7 @@
 <body>
 <div class="contenido">
 
-  <script src="config.js?v=20260819-4"></script>
+  <script src="config.js?v=20260819-5"></script>
 
   <section class="revelar">
     <p class="pareja">Emilio José Álvarez Lopéz<em>&amp;</em>Génesis Fidealic Perdigón Paredes</p>
@@ -524,6 +524,7 @@
     }
     const nombre = decod(params.get("n") || "").trim();
     const personas = decod(params.get("p") || "").trim() || C.personasDefecto;
+    const ocultarValido = params.get("v") === "0";
     const familia = decod(params.get("fam") || "").trim();
 
     if (familia || nombre) {
@@ -545,6 +546,7 @@
       '<span class="nota">' + C.vestimentaNota + '</span>';
     document.getElementById("valido").textContent =
       "Válido para: " + personas + (personas === "1" ? " persona" : " personas");
+    if (ocultarValido) document.getElementById("valido").style.display = "none";
 
     document.querySelectorAll(".col")[0].querySelector(".mapa").href = C.ceremoniaMapa;
     document.querySelectorAll(".col")[1].querySelector(".mapa").href = C.brindisMapa;
